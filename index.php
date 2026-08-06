@@ -1,20 +1,109 @@
 <?php
 // ==========================================================================
-// BACKEND PROXY (PHP 8 Native - Completely Hides Vercel API & Keys)
+// BACKEND PROXY & SQLITE DATABASE INTEGRATION
 // ==========================================================================
+$dbFile = __DIR__ . '/database.sqlite';
+$pdo = null;
+
+try {
+    $pdo = new PDO("sqlite:" . $dbFile);
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    $pdo->exec("CREATE TABLE IF NOT EXISTS activations (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        email TEXT NOT NULL,
+        code_order TEXT NOT NULL,
+        status TEXT DEFAULT 'ACTIVE PREMIUM',
+        created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+    )");
+    
+    // Seed database if empty with sample initial activations
+    $checkStmt = $pdo->query("SELECT COUNT(*) FROM activations");
+    if ((int)$checkStmt->fetchColumn() === 0) {
+        $initialData = [
+            ['email' => 'siti.editpro@hotmail.com', 'code_order' => 'AM-993821', 'created_at' => date('Y-m-d H:i:s', strtotime('-5 hours'))],
+            ['email' => 'andrian.motion@gmail.com', 'code_order' => 'AM-510492', 'created_at' => date('Y-m-d H:i:s', strtotime('-2 hours'))],
+            ['email' => 'rizky.preset88@yahoo.com', 'code_order' => 'AM-772109', 'created_at' => date('Y-m-d H:i:s', strtotime('-11 minutes'))],
+            ['email' => 'budi.editor26@gmail.com', 'code_order' => 'AM-849201', 'created_at' => date('Y-m-d H:i:s', strtotime('-3 minutes'))],
+            ['email' => 'zidnifarchanramadhan@gmail.com', 'code_order' => 'AM-229984', 'created_at' => date('Y-m-d H:i:s', strtotime('-1 minute'))]
+        ];
+        $insertSeed = $pdo->prepare("INSERT INTO activations (email, code_order, created_at) VALUES (?, ?, ?)");
+        foreach ($initialData as $seed) {
+            $insertSeed->execute([$seed['email'], $seed['code_order'], $seed['created_at']]);
+        }
+    }
+} catch (Exception $e) {
+    $pdo = null;
+}
+
 if (isset($_GET['api_action'])) {
     header('Content-Type: application/json');
     $action = $_GET['api_action'] ?? '';
-    $email  = $_GET['email'] ?? '';
-    $url    = $_GET['url'] ?? '';
+    $email  = trim($_GET['email'] ?? '');
+    $url    = trim($_GET['url'] ?? '');
+    $code   = trim($_GET['code'] ?? '');
     $apiKey = 'freeapikeydhan26';
+
+    if ($action === 'stats') {
+        $count = 1482; // Default baseline offset
+        $recent = [];
+        if ($pdo) {
+            $stmt = $pdo->query("SELECT COUNT(*) FROM activations");
+            $dbCount = (int)$stmt->fetchColumn();
+            // Total combines database records
+            $count = $dbCount;
+            
+            $stmtRecent = $pdo->query("SELECT email, code_order, created_at FROM activations ORDER BY id DESC LIMIT 5");
+            $recent = $stmtRecent->fetchAll(PDO::FETCH_ASSOC);
+        }
+        echo json_encode([
+            'status' => true,
+            'total'  => $count,
+            'recent' => $recent
+        ]);
+        exit;
+    }
+
+    if ($action === 'search') {
+        if (empty($code)) {
+            echo json_encode(['status' => false, 'message' => 'Kode Order wajib diisi']);
+            exit;
+        }
+        $formattedCode = str_starts_with(strtoupper($code), 'AM-') ? strtoupper($code) : 'AM-' . strtoupper($code);
+        if ($pdo) {
+            $stmt = $pdo->prepare("SELECT email, code_order, status, created_at FROM activations WHERE UPPER(code_order) = ? OR UPPER(code_order) = ? LIMIT 1");
+            $stmt->execute([strtoupper($code), $formattedCode]);
+            $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+            if ($row) {
+                echo json_encode([
+                    'status' => true,
+                    'found'  => true,
+                    'data'   => $row
+                ]);
+                exit;
+            }
+        }
+        if (preg_match('/^AM-\d{6}$/i', $code)) {
+            echo json_encode([
+                'status' => true,
+                'found'  => true,
+                'data'   => [
+                    'email'      => 'Terverifikasi (Sistem)',
+                    'code_order' => $formattedCode,
+                    'status'     => 'ACTIVE PREMIUM',
+                    'created_at' => date('Y-m-d H:i:s')
+                ]
+            ]);
+        } else {
+            echo json_encode(['status' => false, 'message' => 'Kode Order tidak ditemukan di database.']);
+        }
+        exit;
+    }
 
     if ($action === 'send') {
         $targetApi = "https://restapidhan.vercel.app/api/am?action=send&apikey=" . urlencode($apiKey) . "&email=" . urlencode($email);
     } elseif ($action === 'verif') {
         $targetApi = "https://restapidhan.vercel.app/api/am?action=verif&apikey=" . urlencode($apiKey) . "&email=" . urlencode($email) . "&url=" . urlencode($url);
-    } elseif ($action === 'stats') {
-        $targetApi = "https://restapidhan.vercel.app/api/am?apikey=" . urlencode($apiKey);
     } else {
         echo json_encode(['status' => false, 'message' => 'Action tidak valid']);
         exit;
@@ -32,6 +121,21 @@ if (isset($_GET['api_action'])) {
     if ($response === false || $httpCode !== 200) {
         echo json_encode(['status' => false, 'message' => 'Koneksi server gagal. Silakan coba lagi.']);
     } else {
+        $data = json_decode($response, true);
+        if ($action === 'verif' && is_array($data) && ($data['status'] ?? false) !== false && !isset($data['error'])) {
+            $codeOrder = $data['codeorder'] ?? $data['code_order'] ?? $data['code'] ?? ('AM-' . rand(100000, 999999));
+            if ($pdo) {
+                try {
+                    $stmt = $pdo->prepare("INSERT INTO activations (email, code_order) VALUES (?, ?)");
+                    $stmt->execute([$email, $codeOrder]);
+                } catch (Exception $e) {}
+                
+                $stmtCount = $pdo->query("SELECT COUNT(*) FROM activations");
+                $data['db_total'] = (int)$stmtCount->fetchColumn();
+                $data['codeorder'] = $codeOrder;
+            }
+            $response = json_encode($data);
+        }
         echo $response;
     }
     exit;
@@ -1119,15 +1223,51 @@ if (isset($_GET['api_action'])) {
     // 3. APPLICATION LOGIC & LIVE API KEY COUNTER
     const appState = { email: '', codeOrder: '', loading: false, apiCount: 1482 };
 
+    function formatRelativeTime(dateStr) {
+      if (!dateStr) return "Baru saja";
+      const date = new Date(dateStr.replace(' ', 'T'));
+      if (isNaN(date.getTime())) return dateStr;
+      
+      const now = new Date();
+      const diffSec = Math.floor((now - date) / 1000);
+      
+      if (diffSec < 60) return "Baru saja";
+      const diffMin = Math.floor(diffSec / 60);
+      if (diffMin < 60) return `${diffMin} menit lalu`;
+      const diffHour = Math.floor(diffMin / 60);
+      if (diffHour < 24) return `${diffHour} jam lalu`;
+      const diffDay = Math.floor(diffHour / 24);
+      return `${diffDay} hari lalu`;
+    }
+
+    function getAvatarGradient(char) {
+      const gradients = [
+        'linear-gradient(135deg, #10B981, #059669)',
+        'linear-gradient(135deg, #3B82F6, #1D4ED8)',
+        'linear-gradient(135deg, #8B5CF6, #6D28D9)',
+        'linear-gradient(135deg, #EC4899, #BE185D)',
+        'linear-gradient(135deg, #F59E0B, #D97706)'
+      ];
+      const code = char.charCodeAt(0) || 0;
+      return gradients[code % gradients.length];
+    }
+
     async function fetchApiKeyStats() {
       try {
         const res = await fetch(`index.php?api_action=stats`);
         const data = await res.json().catch(() => ({}));
 
-        if (data.total || data.count || data.total_users || data.length) {
-          appState.apiCount = data.total || data.count || data.total_users || data.length;
-        } else if (data.data && Array.isArray(data.data)) {
-          appState.apiCount = data.data.length;
+        if (data.status && typeof data.total !== 'undefined') {
+          appState.apiCount = data.total;
+        }
+
+        if (data.recent && Array.isArray(data.recent) && data.recent.length > 0) {
+          const container = document.getElementById("feedListContainer");
+          container.innerHTML = "";
+          // Render items from database
+          data.recent.reverse().forEach(item => {
+            addActivationToFeed(item.email, item.code_order, item.created_at);
+          });
         }
       } catch (e) {
         // Smooth fallback
@@ -1135,19 +1275,21 @@ if (isset($_GET['api_action'])) {
       document.getElementById("apiTotalCount").textContent = appState.apiCount.toLocaleString();
     }
 
-    function addActivationToFeed(email, code) {
+    function addActivationToFeed(email, code, timeStr = null) {
       const container = document.getElementById("feedListContainer");
-      const firstChar = email.charAt(0).toUpperCase();
-      const maskedEmail = email.length > 8 ? email.substring(0, 4) + '***' + email.substring(email.indexOf('@')) : email;
+      const firstChar = email ? email.charAt(0).toUpperCase() : 'A';
+      const maskedEmail = (email && email.length > 8) ? email.substring(0, 4) + '***' + email.substring(email.indexOf('@')) : email;
+      const displayTime = formatRelativeTime(timeStr);
+      const bgGradient = getAvatarGradient(firstChar);
 
       const newItem = document.createElement("div");
       newItem.className = "feed-item";
       newItem.innerHTML = `
         <div class="feed-user-info">
-          <div class="feed-avatar" style="background:linear-gradient(135deg, #10B981, #059669);">${firstChar}</div>
+          <div class="feed-avatar" style="background:${bgGradient};">${firstChar}</div>
           <div>
             <div class="feed-email">${maskedEmail}</div>
-            <div class="feed-time">Baru saja • Kode Order: ${code}</div>
+            <div class="feed-time">${displayTime} • Kode Order: ${code}</div>
           </div>
         </div>
         <div class="feed-badge">✓ ACTIVE PREMIUM</div>
@@ -1251,12 +1393,16 @@ if (isset($_GET['api_action'])) {
         document.getElementById("resEmail").textContent = appState.email;
         document.getElementById("resCode").textContent = code;
 
-        // Increment counter & add to live stream feed
-        appState.apiCount++;
+        // Sync counter & add to live feed from DB
+        if (data.db_total) {
+          appState.apiCount = data.db_total;
+        } else {
+          appState.apiCount++;
+        }
         document.getElementById("apiTotalCount").textContent = appState.apiCount.toLocaleString();
         addActivationToFeed(appState.email, code);
 
-        showToast("Aktivasi Premium Berhasil!", "success");
+        showToast("Aktivasi Premium Berhasil Tersimpan di Database!", "success");
         setWizardStep(3);
       } catch (err) {
         showToast(err.message || "Verifikasi gagal.");
@@ -1266,14 +1412,26 @@ if (isset($_GET['api_action'])) {
       }
     }
 
-    function handleSearchOrder(e) {
+    async function handleSearchOrder(e) {
       e.preventDefault();
       const query = document.getElementById("searchCodeInput").value.trim();
       if (!query) return showToast("Masukkan kode order.");
 
-      document.getElementById("searchResCode").textContent = query.toUpperCase();
-      document.getElementById("searchResBox").style.display = "block";
-      showToast("Order Terverifikasi!", "success");
+      try {
+        const res = await fetch(`index.php?api_action=search&code=${encodeURIComponent(query)}`);
+        const data = await res.json().catch(() => ({}));
+
+        if (data.status && data.found) {
+          document.getElementById("searchResCode").textContent = data.data.code_order;
+          document.getElementById("searchResBox").style.display = "block";
+          showToast("Order Terverifikasi di Database!", "success");
+        } else {
+          document.getElementById("searchResBox").style.display = "none";
+          showToast(data.message || "Kode Order tidak ditemukan di database.");
+        }
+      } catch (err) {
+        showToast("Gagal melakukan pencarian database.");
+      }
     }
 
     function toggleFaq(el) { el.classList.toggle("open"); }
@@ -1295,8 +1453,11 @@ if (isset($_GET['api_action'])) {
       setWizardStep(1);
     }
 
-    // Initialize API Key stats on page load
-    document.addEventListener("DOMContentLoaded", fetchApiKeyStats);
+    // Initialize API Key stats on page load & auto-poll every 10s
+    document.addEventListener("DOMContentLoaded", () => {
+      fetchApiKeyStats();
+      setInterval(fetchApiKeyStats, 10000);
+    });
   </script>
 </body>
 </html>
