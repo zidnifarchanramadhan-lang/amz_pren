@@ -1086,9 +1086,8 @@
     const appState = { email: '', codeOrder: '', loading: false, apiCount: 1482 };
 
     // SUPABASE CLOUD DATABASE CONFIGURATION
-    // Masukkan SUPABASE_URL & SUPABASE_ANON_KEY Anda di sini dari Dashboard Supabase
-    const SUPABASE_URL = ""; 
-    const SUPABASE_ANON_KEY = "";
+    const SUPABASE_URL = "https://ycfiwrbwgzkrnvdasman.supabase.co"; 
+    const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InljZml3cmJ3Z3prcm52ZGFzbWFuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODYwMTg3MTQsImV4cCI6MjEwMTU5NDcxNH0.pLY_sg-wpe13nTiCIOdw3Elc2iG1icUEizkeVIjW3Jg";
     let supabaseClient = null;
 
     if (typeof window.supabase !== 'undefined' && SUPABASE_URL && SUPABASE_ANON_KEY) {
