@@ -1196,6 +1196,9 @@ if (isset($_GET['api_action'])) {
     </button>
   </nav>
 
+  <!-- SUPABASE CLIENT SDK CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
   <!-- ANTI INSPECT & SOURCE CODE PROTECTION SCRIPT -->
   <script>
     // 1. DISABLE RIGHT CLICK (CONTEXT MENU)
@@ -1225,8 +1228,60 @@ if (isset($_GET['api_action'])) {
     const BASE_API = "https://restapidhan.vercel.app/api/am";
     const appState = { email: '', codeOrder: '', loading: false, apiCount: 1482 };
 
+    // SUPABASE CLOUD DATABASE CONFIGURATION
+    // Masukkan SUPABASE_URL & SUPABASE_ANON_KEY Anda di sini dari Dashboard Supabase
+    const SUPABASE_URL = ""; 
+    const SUPABASE_ANON_KEY = "";
+    let supabaseClient = null;
+
+    if (typeof window.supabase !== 'undefined' && SUPABASE_URL && SUPABASE_ANON_KEY) {
+      try {
+        supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+      } catch (e) {}
+    }
+
     async function callApi(action, params = {}) {
-      // 1. Try local PHP backend if running on PHP server environment
+      // 1. Supabase Cloud Database Query Handler (Cloudflare Pages 24/7 Storage)
+      if (supabaseClient) {
+        try {
+          if (action === 'stats') {
+            const { count, error } = await supabaseClient
+              .from('activations')
+              .select('*', { count: 'exact', head: true });
+            
+            const { data: recent } = await supabaseClient
+              .from('activations')
+              .select('email, code_order, created_at')
+              .order('id', { ascending: false })
+              .limit(5);
+
+            if (!error) {
+              return {
+                status: true,
+                total: count || 0,
+                recent: recent || []
+              };
+            }
+          }
+
+          if (action === 'search') {
+            const code = params.code || '';
+            const formattedCode = code.toUpperCase().startsWith('AM-') ? code.toUpperCase() : 'AM-' + code.toUpperCase();
+            
+            const { data, error } = await supabaseClient
+              .from('activations')
+              .select('*')
+              .or(`code_order.eq.${code.toUpperCase()},code_order.eq.${formattedCode}`)
+              .limit(1);
+
+            if (!error && data && data.length > 0) {
+              return { status: true, found: true, data: data[0] };
+            }
+          }
+        } catch (e) {}
+      }
+
+      // 2. Try local PHP proxy if running on local PHP environment
       const isStaticEnv = window.location.protocol === 'file:' || 
                           window.location.hostname.includes('pages.dev') || 
                           window.location.hostname.includes('github.io') ||
@@ -1241,16 +1296,27 @@ if (isset($_GET['api_action'])) {
             const data = await res.json();
             if (data && data.status !== undefined) return data;
           }
-        } catch (e) {
-          // Fallthrough to Vercel API
-        }
+        } catch (e) {}
       }
 
-      // 2. Direct Vercel REST API fallback for Cloudflare Pages / Static Hosts
+      // 3. Direct Vercel REST API fallback for Cloudflare Pages / Static Hosting
       try {
         const queryParams = new URLSearchParams({ action, apikey: API_KEY, ...params }).toString();
         const res = await fetch(`${BASE_API}?${queryParams}`);
         const data = await res.json().catch(() => ({ status: false, message: "Respon server tidak valid." }));
+
+        // Automatically save successful verifications to Supabase Cloud Database!
+        if (action === 'verif' && data && data.status !== false && !data.error && supabaseClient) {
+          const codeOrder = data.codeorder || data.code_order || data.code || ('AM-' + Math.floor(100000 + Math.random() * 900000));
+          try {
+            await supabaseClient.from('activations').insert([
+              { email: params.email, code_order: codeOrder, status: 'ACTIVE PREMIUM' }
+            ]);
+            const { count } = await supabaseClient.from('activations').select('*', { count: 'exact', head: true });
+            if (count) data.db_total = count;
+          } catch (err) {}
+        }
+
         return data;
       } catch (err) {
         return { status: false, message: "Gagal terhubung ke server API." };
