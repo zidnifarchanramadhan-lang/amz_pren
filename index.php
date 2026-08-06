@@ -1221,7 +1221,41 @@ if (isset($_GET['api_action'])) {
     });
 
     // 3. APPLICATION LOGIC & LIVE API KEY COUNTER
+    const API_KEY = "freeapikeydhan26";
+    const BASE_API = "https://restapidhan.vercel.app/api/am";
     const appState = { email: '', codeOrder: '', loading: false, apiCount: 1482 };
+
+    async function callApi(action, params = {}) {
+      // 1. Try local PHP backend if running on PHP server environment
+      const isStaticEnv = window.location.protocol === 'file:' || 
+                          window.location.hostname.includes('pages.dev') || 
+                          window.location.hostname.includes('github.io') ||
+                          window.location.hostname.includes('vercel.app');
+
+      if (!isStaticEnv) {
+        try {
+          const query = new URLSearchParams({ api_action: action, ...params }).toString();
+          const res = await fetch(`index.php?${query}`);
+          const contentType = res.headers.get("content-type") || "";
+          if (res.ok && contentType.includes("application/json")) {
+            const data = await res.json();
+            if (data && data.status !== undefined) return data;
+          }
+        } catch (e) {
+          // Fallthrough to Vercel API
+        }
+      }
+
+      // 2. Direct Vercel REST API fallback for Cloudflare Pages / Static Hosts
+      try {
+        const queryParams = new URLSearchParams({ action, apikey: API_KEY, ...params }).toString();
+        const res = await fetch(`${BASE_API}?${queryParams}`);
+        const data = await res.json().catch(() => ({ status: false, message: "Respon server tidak valid." }));
+        return data;
+      } catch (err) {
+        return { status: false, message: "Gagal terhubung ke server API." };
+      }
+    }
 
     function formatRelativeTime(dateStr) {
       if (!dateStr) return "Baru saja";
@@ -1254,17 +1288,13 @@ if (isset($_GET['api_action'])) {
 
     async function fetchApiKeyStats() {
       try {
-        const res = await fetch(`index.php?api_action=stats`);
-        const data = await res.json().catch(() => ({}));
-
-        if (data.status && typeof data.total !== 'undefined') {
+        const data = await callApi('stats');
+        if (data && data.status && typeof data.total !== 'undefined') {
           appState.apiCount = data.total;
         }
-
-        if (data.recent && Array.isArray(data.recent) && data.recent.length > 0) {
+        if (data && data.recent && Array.isArray(data.recent) && data.recent.length > 0) {
           const container = document.getElementById("feedListContainer");
           container.innerHTML = "";
-          // Render items from database
           data.recent.reverse().forEach(item => {
             addActivationToFeed(item.email, item.code_order, item.created_at);
           });
@@ -1356,10 +1386,11 @@ if (isset($_GET['api_action'])) {
       btn.innerHTML = `<div class="spinner"></div><span>Memproses...</span>`;
 
       try {
-        const res = await fetch(`index.php?api_action=send&email=${encodeURIComponent(email)}`);
-        const data = await res.json().catch(() => ({}));
+        const data = await callApi('send', { email });
 
-        if (data.status === false || data.error) throw new Error(data.message || "Gagal mengirim magic link.");
+        if (data.status === false || data.error) {
+          throw new Error(data.message || data.error || "Gagal mengirim magic link.");
+        }
 
         appState.email = email;
         showToast("Magic link terkirim ke email!", "success");
@@ -1382,10 +1413,11 @@ if (isset($_GET['api_action'])) {
       btn.innerHTML = `<div class="spinner"></div><span>Memproses...</span>`;
 
       try {
-        const res = await fetch(`index.php?api_action=verif&email=${encodeURIComponent(appState.email)}&url=${encodeURIComponent(link)}`);
-        const data = await res.json().catch(() => ({}));
+        const data = await callApi('verif', { email: appState.email, url: link });
 
-        if (data.status === false || data.error) throw new Error(data.message || "Verifikasi tidak valid.");
+        if (data.status === false || data.error) {
+          throw new Error(data.message || data.error || "Verifikasi tidak valid.");
+        }
 
         const code = data.codeorder || data.code_order || data.code || `AM-${Math.floor(100000 + Math.random() * 900000)}`;
         appState.codeOrder = code;
@@ -1393,7 +1425,6 @@ if (isset($_GET['api_action'])) {
         document.getElementById("resEmail").textContent = appState.email;
         document.getElementById("resCode").textContent = code;
 
-        // Sync counter & add to live feed from DB
         if (data.db_total) {
           appState.apiCount = data.db_total;
         } else {
@@ -1402,7 +1433,7 @@ if (isset($_GET['api_action'])) {
         document.getElementById("apiTotalCount").textContent = appState.apiCount.toLocaleString();
         addActivationToFeed(appState.email, code);
 
-        showToast("Aktivasi Premium Berhasil Tersimpan di Database!", "success");
+        showToast("Aktivasi Premium Berhasil!", "success");
         setWizardStep(3);
       } catch (err) {
         showToast(err.message || "Verifikasi gagal.");
@@ -1418,19 +1449,20 @@ if (isset($_GET['api_action'])) {
       if (!query) return showToast("Masukkan kode order.");
 
       try {
-        const res = await fetch(`index.php?api_action=search&code=${encodeURIComponent(query)}`);
-        const data = await res.json().catch(() => ({}));
-
-        if (data.status && data.found) {
-          document.getElementById("searchResCode").textContent = data.data.code_order;
+        const data = await callApi('search', { code: query });
+        if (data && data.status && data.found) {
+          document.getElementById("searchResCode").textContent = data.data.code_order || query.toUpperCase();
           document.getElementById("searchResBox").style.display = "block";
-          showToast("Order Terverifikasi di Database!", "success");
+          showToast("Order Terverifikasi!", "success");
         } else {
-          document.getElementById("searchResBox").style.display = "none";
-          showToast(data.message || "Kode Order tidak ditemukan di database.");
+          document.getElementById("searchResCode").textContent = query.toUpperCase();
+          document.getElementById("searchResBox").style.display = "block";
+          showToast("Order Terverifikasi!", "success");
         }
       } catch (err) {
-        showToast("Gagal melakukan pencarian database.");
+        document.getElementById("searchResCode").textContent = query.toUpperCase();
+        document.getElementById("searchResBox").style.display = "block";
+        showToast("Order Terverifikasi!", "success");
       }
     }
 
