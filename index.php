@@ -1331,60 +1331,6 @@ if (isset($_GET['api_action'])) {
       .feed-email, .feed-time { max-width: 110px; }
       .btn-blue, .btn-secondary { padding: 12px 12px; font-size: 0.85rem; }
     }
-
-    /* IKLAN AD BANNER STYLING (DESKTOP & HP MOBILE) */
-    .ad-slot-responsive {
-      width: 100%;
-      margin: 24px 0;
-      border-radius: var(--radius-card);
-      overflow: hidden;
-      background: var(--card-bg);
-      border: 1px solid var(--card-border);
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
-      text-align: center;
-      transition: all 0.3s ease;
-    }
-    .ad-slot-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 8px 16px;
-      background: rgba(10, 15, 26, 0.8);
-      border-bottom: 1px solid var(--sidebar-border);
-      font-size: 0.7rem;
-      color: var(--text-muted);
-      font-weight: 700;
-      letter-spacing: 0.5px;
-      text-transform: uppercase;
-    }
-    .ad-slot-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-      color: #60A5FA;
-      background: rgba(59, 130, 246, 0.12);
-      padding: 2px 8px;
-      border-radius: 6px;
-      border: 1px solid rgba(59, 130, 246, 0.25);
-    }
-    .ad-slot-content {
-      padding: 16px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 90px;
-      position: relative;
-    }
-    @media (min-width: 769px) {
-      .ad-slot-desktop-only { display: block; }
-      .ad-slot-mobile-only { display: none; }
-    }
-    @media (max-width: 768px) {
-      .ad-slot-desktop-only { display: none; }
-      .ad-slot-mobile-only { display: block; }
-      .ad-slot-responsive { margin: 16px 0; }
-      .ad-slot-content { padding: 10px; min-height: 70px; }
-    }
   </style>
 </head>
 <body>
@@ -1503,29 +1449,6 @@ if (isset($_GET['api_action'])) {
               <div class="metric-val" style="color:#C084FC;">100%</div>
               <div class="metric-lbl" data-i18n="metric3_lbl">Otomatis & Garansi</div>
             </div>
-          </div>
-        </div>
-
-        <!-- IKLAN BANNER SLOT (DESKTOP & HP) -->
-        <div class="ad-slot-responsive ad-slot-desktop-only">
-          <div class="ad-slot-header">
-            <span class="ad-slot-badge">📢 Sponsor Banner (Desktop)</span>
-            <span>Effective CPM Network</span>
-          </div>
-          <div class="ad-slot-content">
-            <script src="https://pl30734086.effectivecpmnetwork.com/73/4c/52/734c52ebe0c329028e7662abab1502cc.js"></script>
-            <script src="https://pl30734085.effectivecpmnetwork.com/6e/d6/c5/6ed6c5c9af647260784a57bac9a495cd.js"></script>
-          </div>
-        </div>
-
-        <div class="ad-slot-responsive ad-slot-mobile-only">
-          <div class="ad-slot-header">
-            <span class="ad-slot-badge">📢 Sponsor Banner (Mobile/HP)</span>
-            <span>Effective CPM Network</span>
-          </div>
-          <div class="ad-slot-content">
-            <script src="https://pl30734086.effectivecpmnetwork.com/73/4c/52/734c52ebe0c329028e7662abab1502cc.js"></script>
-            <script src="https://pl30734085.effectivecpmnetwork.com/6e/d6/c5/6ed6c5c9af647260784a57bac9a495cd.js"></script>
           </div>
         </div>
 
