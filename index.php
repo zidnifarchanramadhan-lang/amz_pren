@@ -182,14 +182,14 @@ if (isset($_GET['api_action'])) {
 
     :root {
       /* Layout backgrounds */
-      --bg-main: #F0F2F5;
+      --bg-main: #E8EAF0;
       --sidebar-bg: #1C2333;
       --sidebar-hover: rgba(255,255,255,0.06);
       --sidebar-border: rgba(255,255,255,0.08);
-      --card-bg: #FFFFFF;
-      --card-border: #E2E8F0;
-      --input-bg: #F8FAFC;
-      --input-border: #CBD5E1;
+      --card-bg: #F2F3F7;
+      --card-border: #D8DCE6;
+      --input-bg: #EBEDF2;
+      --input-border: #C4CAD4;
 
       /* Typography */
       --text-title: #1A202C;
@@ -533,13 +533,13 @@ if (isset($_GET['api_action'])) {
     .input-field:focus {
       border-color: var(--teal-primary);
       box-shadow: 0 0 0 3px var(--teal-glow);
-      background: #FFFFFF;
+      background: var(--input-bg);
     }
 
     .chips-group { display: flex; gap: 8px; margin-top: 10px; flex-wrap: wrap; }
     .chip {
-      background: #F1F5F9;
-      border: 1px solid #E2E8F0;
+      background: var(--input-bg);
+      border: 1px solid var(--card-border);
       color: var(--text-sub);
       font-size: 0.775rem;
       font-weight: 600;
@@ -582,7 +582,7 @@ if (isset($_GET['api_action'])) {
     .btn-secondary {
       flex: 1;
       padding: 13px 24px;
-      background: #FFFFFF;
+      background: var(--card-bg);
       border: 1.5px solid #E2E8F0;
       border-radius: var(--radius-btn);
       color: var(--text-sub);
@@ -629,8 +629,8 @@ if (isset($_GET['api_action'])) {
       margin: 20px 0;
     }
     .ad-sub-box {
-      background: #F8FAFC;
-      border: 1.5px solid #E2E8F0;
+      background: var(--input-bg);
+      border: 1.5px solid var(--card-border);
       border-radius: 10px;
       padding: 14px 8px;
       text-align: center;
@@ -679,7 +679,7 @@ if (isset($_GET['api_action'])) {
       pointer-events: auto;
     }
     .modal-card {
-      background: #FFFFFF;
+      background: var(--card-bg);
       border: 1px solid #E2E8F0;
       border-radius: 16px;
       width: 100%;
@@ -726,8 +726,8 @@ if (isset($_GET['api_action'])) {
     .modal-title { font-size: 1.25rem; font-weight: 700; color: var(--text-title); margin-bottom: 8px; }
     .modal-subtitle { font-size: 0.85rem; color: var(--text-sub); margin-bottom: 20px; }
     .modal-instruction-box {
-      background: #F8FAFC;
-      border: 1px solid #E2E8F0;
+      background: var(--input-bg);
+      border: 1px solid var(--card-border);
       border-radius: 10px;
       padding: 16px;
       text-align: left;
@@ -791,7 +791,7 @@ if (isset($_GET['api_action'])) {
     }
     .success-badge-icon svg { width: 20px; height: 20px; fill: currentColor; }
 
-    .data-row { display: flex; justify-content: space-between; align-items: center; padding: 9px 0; border-bottom: 1px solid #F7FAFC; }
+    .data-row { display: flex; justify-content: space-between; align-items: center; padding: 9px 0; border-bottom: 1px solid var(--input-bg); }
     .data-row:last-child { border-bottom: none; }
     .data-key { font-size: 0.85rem; color: var(--text-muted); }
     .data-val { font-size: 0.9rem; font-weight: 700; color: var(--text-title); }
@@ -856,14 +856,14 @@ if (isset($_GET['api_action'])) {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      background: #F8FAFC;
-      border: 1px solid #EDF2F7;
+      background: var(--input-bg);
+      border: 1px solid var(--card-border);
       border-radius: 10px;
       padding: 12px 16px;
       transition: background 0.15s ease;
     }
 
-    .feed-item:hover { background: #EDF2F7; }
+    .feed-item:hover { background: var(--card-border); }
 
     .feed-user-info {
       display: flex;
@@ -914,7 +914,7 @@ if (isset($_GET['api_action'])) {
       top: 20px; right: 20px;
       z-index: 9999;
       min-width: 300px;
-      background: #FFFFFF;
+      background: var(--card-bg);
       border: 1px solid #E2E8F0;
       padding: 14px 18px;
       border-radius: 10px;
@@ -929,15 +929,15 @@ if (isset($_GET['api_action'])) {
     }
 
     .toast-box.show { opacity: 1; pointer-events: auto; transform: translateY(0); }
-    .toast-box.error { border-color: rgba(229, 62, 62, 0.4); background: #FFF5F5; }
+    .toast-box.error { border-color: rgba(229, 62, 62, 0.4); background: #F8E8E8; }
     .toast-box.error .toast-txt { color: #C53030; }
-    .toast-box.success { border-color: rgba(56, 161, 105, 0.4); background: #F0FFF4; }
+    .toast-box.success { border-color: rgba(56, 161, 105, 0.4); background: #E8F5EE; }
     .toast-box.success .toast-txt { color: #276749; }
 
     .faq-list { display: flex; flex-direction: column; gap: 10px; }
-    .faq-item { background: #FFFFFF; border: 1.5px solid #E2E8F0; border-radius: var(--radius-btn); overflow: hidden; }
+    .faq-item { background: var(--card-bg); border: 1.5px solid var(--card-border); border-radius: var(--radius-btn); overflow: hidden; }
     .faq-header { padding: 15px 18px; font-size: 0.9rem; font-weight: 600; color: var(--text-title); cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
-    .faq-body { display: none; padding: 0 18px 15px 18px; font-size: 0.85rem; color: var(--text-sub); line-height: 1.65; border-top: 1px solid #F1F5F9; }
+    .faq-body { display: none; padding: 0 18px 15px 18px; font-size: 0.85rem; color: var(--text-sub); line-height: 1.65; border-top: 1px solid var(--input-bg); }
     .faq-item.open .faq-body { display: block; }
     .faq-item.open .faq-icon { transform: rotate(180deg); fill: var(--teal-primary); }
     .faq-item.open { border-color: var(--teal-border); }
@@ -1237,7 +1237,7 @@ if (isset($_GET['api_action'])) {
       z-index: 999;
       max-width: 380px;
       width: calc(100% - 32px);
-      background: #FFFFFF;
+      background: var(--card-bg);
       border: 1.5px solid var(--teal-border);
       border-radius: 14px;
       padding: 6px;
