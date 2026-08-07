@@ -569,38 +569,6 @@ if (isset($_GET['api_action'])) {
       color: #A78BFA !important;
     }
 
-    /* TOP RIGHT SPONSOR AD WIDGET */
-    .sponsor-ad-widget {
-      position: absolute;
-      top: 20px;
-      right: 20px;
-      background: rgba(15, 23, 42, 0.95);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 12px;
-      padding: 10px 14px;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.5);
-      z-index: 10;
-    }
-    .sponsor-ad-widget img {
-      width: 44px;
-      height: 44px;
-      border-radius: 8px;
-      object-fit: cover;
-    }
-    .sponsor-ad-title { font-size: 0.85rem; font-weight: 700; color: #FFF; margin-bottom: 2px; }
-    .sponsor-ad-sub { font-size: 0.75rem; color: var(--blue-primary); cursor: pointer; text-decoration: underline; }
-    .sponsor-ad-badge {
-      position: absolute;
-      top: -6px; right: -6px;
-      background: #EF4444; color: #FFF;
-      font-size: 0.65rem; font-weight: 800;
-      width: 18px; height: 18px; border-radius: 50%;
-      display: flex; align-items: center; justify-content: center;
-    }
-
     /* 5 SUB-AD STATUS CARDS GRID */
     .ad-sub-grid {
       display: grid;
@@ -695,6 +663,17 @@ if (isset($_GET['api_action'])) {
       margin: 0 auto 16px auto;
       box-shadow: 0 0 20px rgba(59, 130, 246, 0.2);
     }
+    .modal-success-icon {
+      width: 56px; height: 56px;
+      border-radius: 50%;
+      background: rgba(16, 185, 129, 0.15);
+      border: 2px solid #10B981;
+      color: #10B981;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.5rem; font-weight: 900;
+      margin: 0 auto 16px auto;
+      box-shadow: 0 0 20px rgba(16, 185, 129, 0.3);
+    }
     .modal-title { font-size: 1.3rem; font-weight: 800; color: #FFF; margin-bottom: 8px; }
     .modal-subtitle { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 20px; }
     .modal-instruction-box {
@@ -708,17 +687,7 @@ if (isset($_GET['api_action'])) {
     .modal-instruction-header { font-size: 0.875rem; font-weight: 800; color: #FFF; margin-bottom: 10px; }
     .modal-instruction-list { font-size: 0.825rem; color: #94A3B8; line-height: 1.7; padding-left: 0; list-style: none; margin: 0; }
     .modal-subtext { font-size: 0.8rem; color: var(--text-muted); font-family: monospace; margin-bottom: 24px; }
-    .modal-success-icon {
-      width: 56px; height: 56px;
-      border-radius: 50%;
-      background: rgba(16, 185, 129, 0.15);
-      border: 2px solid #10B981;
-      color: #10B981;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 1.5rem; font-weight: 900;
-      margin: 0 auto 16px auto;
-      box-shadow: 0 0 20px rgba(16, 185, 129, 0.3);
-    }
+    
     .modal-progress-bar-container {
       width: 100%;
       height: 6px;
@@ -925,59 +894,265 @@ if (isset($_GET['api_action'])) {
     /* HIDE MOBILE ELEMENTS ON DESKTOP BY DEFAULT */
     .mobile-header, .mobile-bottom-nav { display: none !important; }
 
+    /* MOBILE OPTIMIZATIONS & RESPONSIVE STYLING */
     @media (max-width: 768px) {
-      body { flex-direction: column; }
+      body {
+        flex-direction: column;
+        overflow-x: hidden;
+      }
       .sidebar { display: none !important; }
 
       .mobile-header {
         display: flex !important;
         width: 100%;
-        background: var(--sidebar-bg);
+        background: rgba(15, 22, 35, 0.9);
+        backdrop-filter: blur(14px);
+        -webkit-backdrop-filter: blur(14px);
         border-bottom: 1px solid var(--sidebar-border);
-        padding: 14px 16px;
+        padding: max(12px, env(safe-area-inset-top)) 16px 12px 16px;
         position: sticky;
         top: 0;
-        z-index: 90;
+        z-index: 1000;
         justify-content: space-between;
         align-items: center;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
       }
 
-      .main-content { margin-left: 0; width: 100%; padding: 20px 16px 80px 16px; }
-      .page-title { font-size: 1.35rem; }
-      .metrics-grid { grid-template-columns: 1fr; gap: 10px; }
-      .steps-grid { grid-template-columns: repeat(3, 1fr); gap: 8px; }
-      .step-card { padding: 12px 8px; }
-      .step-num { font-size: 0.95rem; }
-      .step-text { font-size: 0.725rem; }
-      .panel-card { padding: 20px 16px; margin-bottom: 20px; }
+      .main-content {
+        margin-left: 0;
+        width: 100%;
+        padding: 16px 14px calc(85px + env(safe-area-inset-bottom)) 14px;
+      }
 
-      .feed-card { padding: 20px 16px; }
-      .feed-item { padding: 10px 12px; }
+      .page-header { margin-bottom: 20px; }
+      .page-title { font-size: 1.35rem; font-weight: 800; letter-spacing: -0.3px; }
+      .page-subtitle { font-size: 0.825rem; color: var(--text-sub); }
 
+      /* Metrics Grid: 3 columns layout for mobile */
+      .metrics-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 8px;
+        margin-bottom: 20px;
+      }
+
+      .metric-card {
+        flex-direction: column;
+        text-align: center;
+        padding: 12px 6px;
+        gap: 8px;
+        border-radius: 14px;
+        background: rgba(19, 27, 46, 0.7);
+        backdrop-filter: blur(8px);
+        border-color: rgba(31, 44, 71, 0.8);
+      }
+
+      .metric-icon-box {
+        width: 36px;
+        height: 36px;
+        border-radius: 10px;
+        margin: 0 auto;
+      }
+      .metric-icon-box svg { width: 18px; height: 18px; }
+
+      .metric-val {
+        font-size: 1.05rem;
+        font-weight: 800;
+        line-height: 1.1;
+      }
+      .metric-lbl {
+        font-size: 0.675rem;
+        font-weight: 600;
+        margin-top: 2px;
+        line-height: 1.2;
+      }
+
+      /* Steps Grid: Equal height compact cards */
+      .steps-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 6px;
+        margin-bottom: 20px;
+      }
+
+      .step-card {
+        padding: 10px 4px;
+        min-height: 60px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        border-radius: 14px;
+      }
+
+      .step-num { font-size: 0.95rem; margin-bottom: 2px; line-height: 1; }
+      .step-text {
+        font-size: 0.675rem;
+        line-height: 1.25;
+        text-align: center;
+        word-break: break-word;
+      }
+
+      /* Panel Cards & Forms */
+      .panel-card {
+        padding: 20px 14px;
+        margin-bottom: 20px;
+        border-radius: 16px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+      }
+
+      .panel-header {
+        gap: 10px;
+        margin-bottom: 16px;
+        padding-bottom: 14px;
+      }
+
+      .panel-icon-box { width: 38px; height: 38px; border-radius: 10px; }
+      .panel-icon-box svg { width: 18px; height: 18px; }
+      .panel-title { font-size: 1.05rem; font-weight: 800; }
+      .panel-desc { font-size: 0.8rem; line-height: 1.35; }
+
+      /* Inputs: font-size 16px prevents iOS Safari auto-zoom */
+      .input-field {
+        font-size: 16px !important;
+        padding: 14px 14px;
+        border-radius: 10px;
+      }
+
+      .form-group { margin-bottom: 18px; }
+      .form-label { font-size: 0.75rem; margin-bottom: 6px; }
+
+      .chips-group { gap: 6px; margin-top: 8px; }
+      .chip {
+        padding: 6px 10px;
+        font-size: 0.75rem;
+        border-radius: 16px;
+        touch-action: manipulation;
+      }
+
+      .btn-row {
+        gap: 8px;
+        margin-top: 18px;
+      }
+
+      .btn-blue, .btn-secondary {
+        padding: 14px 16px;
+        font-size: 0.9rem;
+        border-radius: 10px;
+      }
+
+      .btn-blue:active, .btn-secondary:active, .chip:active, .mob-nav-item:active {
+        transform: scale(0.96);
+      }
+
+      /* 5 Sub-Ad Progress Grid */
+      .ad-sub-grid {
+        grid-template-columns: repeat(5, 1fr);
+        gap: 6px;
+        margin: 18px 0;
+      }
+      .ad-sub-box {
+        padding: 10px 2px;
+        border-radius: 10px;
+      }
+      .ad-sub-num { font-size: 0.95rem; margin-bottom: 2px; }
+      .ad-sub-lbl { font-size: 0.65rem; }
+
+      /* Recent Feed Card */
+      .feed-card {
+        padding: 18px 14px;
+        border-radius: 16px;
+      }
+      .feed-header { margin-bottom: 14px; padding-bottom: 12px; }
+      .feed-title { font-size: 0.95rem; gap: 8px; }
+      .feed-pulse { font-size: 0.7rem; padding: 3px 10px; }
+      
+      .feed-list { gap: 10px; }
+      .feed-item {
+        padding: 10px 12px;
+        gap: 8px;
+        border-radius: 10px;
+      }
+      .feed-user-info { gap: 8px; min-width: 0; flex: 1; }
+      .feed-avatar { width: 32px; height: 32px; font-size: 0.8rem; flex-shrink: 0; }
+      .feed-email {
+        font-size: 0.825rem;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 140px;
+      }
+      .feed-time {
+        font-size: 0.7rem;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 140px;
+      }
+      .feed-badge {
+        font-size: 0.675rem;
+        padding: 3px 8px;
+        flex-shrink: 0;
+      }
+
+      /* Toast notification mobile positioning */
       .toast-box {
-        right: 50%;
-        transform: translateX(50%) translateY(-20px);
-        width: calc(100% - 32px);
+        position: fixed;
+        top: 65px;
+        left: 14px;
+        right: 14px;
+        width: calc(100% - 28px);
+        transform: translateY(-20px);
+        padding: 12px 14px;
+        font-size: 0.85rem;
+        border-radius: 10px;
+        z-index: 1001;
+        box-shadow: 0 8px 24px rgba(0,0,0,0.6);
+      }
+      .toast-box.show {
+        transform: translateY(0);
       }
 
-      .toast-box.show { transform: translateX(50%) translateY(0); }
+      /* Ad Modal Mobile Dialog */
+      .modal-overlay {
+        padding: 14px;
+        z-index: 99999;
+      }
+      .modal-card {
+        padding: 24px 16px;
+        border-radius: 18px;
+        max-width: 100%;
+        max-height: 88vh;
+        overflow-y: auto;
+      }
+      .modal-title { font-size: 1.15rem; margin-bottom: 6px; }
+      .modal-subtitle { font-size: 0.8rem; margin-bottom: 16px; }
+      .modal-instruction-box { padding: 14px 12px; margin-bottom: 14px; border-radius: 12px; }
+      .modal-instruction-header { font-size: 0.825rem; margin-bottom: 8px; }
+      .modal-instruction-list { font-size: 0.775rem; line-height: 1.5; }
+      .modal-subtext { font-size: 0.75rem; margin-bottom: 18px; }
+      .modal-warn-icon, .modal-check-icon, .modal-success-icon {
+        width: 48px; height: 48px; font-size: 1.3rem; margin-bottom: 12px;
+      }
 
+      /* Bottom Nav */
       .mobile-bottom-nav {
         display: flex !important;
         position: fixed;
         bottom: 0; left: 0; right: 0;
-        background: var(--sidebar-bg);
+        background: rgba(15, 22, 35, 0.92);
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
         border-top: 1px solid var(--sidebar-border);
         justify-content: space-around;
-        padding: 10px 0;
-        z-index: 100;
+        padding: 8px 0 max(8px, env(safe-area-inset-bottom)) 0;
+        z-index: 1000;
+        box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.4);
       }
 
       .mob-nav-item {
         display: flex;
         flex-direction: column;
         align-items: center;
-        gap: 4px;
+        gap: 3px;
         color: var(--text-muted);
         font-size: 0.675rem;
         font-weight: 600;
@@ -985,11 +1160,58 @@ if (isset($_GET['api_action'])) {
         border: none !important;
         outline: none !important;
         cursor: pointer;
-        padding: 4px 8px;
+        padding: 4px 12px;
+        transition: transform 0.15s ease, color 0.2s ease;
       }
 
       .mob-nav-item svg { width: 20px; height: 20px; fill: currentColor; }
       .mob-nav-item.active { color: var(--blue-primary); font-weight: 700; }
+    }
+
+    /* Language Switcher Pill Button Styling */
+    .lang-switcher-pill {
+      display: inline-flex;
+      align-items: center;
+      background: rgba(15, 23, 42, 0.7);
+      border: 1px solid var(--sidebar-border);
+      border-radius: 20px;
+      padding: 2px;
+      gap: 2px;
+    }
+    .lang-btn {
+      background: transparent;
+      border: none;
+      color: var(--text-sub);
+      font-size: 0.725rem;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 16px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      transition: all 0.2s ease;
+      font-family: inherit;
+    }
+    .lang-btn:hover { color: var(--text-title); }
+    .lang-btn.active {
+      background: var(--blue-primary);
+      color: #FFFFFF;
+      box-shadow: 0 2px 8px rgba(59, 130, 246, 0.4);
+    }
+
+    /* Small Screen Optimization (e.g. iPhone SE, 320px - 380px) */
+    @media (max-width: 380px) {
+      .main-content { padding: 12px 10px calc(85px + env(safe-area-inset-bottom)) 10px; }
+      .page-title { font-size: 1.2rem; }
+      .metrics-grid { gap: 6px; }
+      .metric-card { padding: 10px 4px; }
+      .metric-val { font-size: 0.95rem; }
+      .metric-lbl { font-size: 0.625rem; }
+      .step-text { font-size: 0.625rem; }
+      .panel-card { padding: 16px 12px; }
+      .feed-email, .feed-time { max-width: 110px; }
+      .btn-blue, .btn-secondary { padding: 12px 12px; font-size: 0.85rem; }
     }
   </style>
 </head>
@@ -1006,7 +1228,13 @@ if (isset($_GET['api_action'])) {
       </div>
       <div class="brand-name">Alight Motion</div>
     </div>
-    <div class="server-status-dot">Online</div>
+    <div style="display:flex; align-items:center; gap:8px;">
+      <div class="lang-switcher-pill">
+        <button type="button" class="lang-btn active" id="btnLangIdMob" onclick="setLanguage('id')">🇮🇩 ID</button>
+        <button type="button" class="lang-btn" id="btnLangEnMob" onclick="setLanguage('en')">🇬🇧 EN</button>
+      </div>
+      <div class="server-status-dot" data-i18n="server_online">Online</div>
+    </div>
   </header>
 
   <div class="dashboard-app">
@@ -1027,24 +1255,32 @@ if (isset($_GET['api_action'])) {
         <nav class="sidebar-menu">
           <button class="menu-item active" id="sNavGen" onclick="switchTab('generator')">
             <svg viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
-            <span>AM Generator</span>
+            <span data-i18n="nav_generator">AM Generator</span>
           </button>
 
           <button class="menu-item" id="sNavCheck" onclick="switchTab('check')">
             <svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
-            <span>Server Status / Cek Order</span>
+            <span data-i18n="nav_check">Server Status / Cek Order</span>
           </button>
 
           <button class="menu-item" id="sNavFaq" onclick="switchTab('faq')">
             <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 16h-2v-2h2v2zm1.07-7.75l-.9.92C12.45 11.9 12 12.5 12 14h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H7c0-2.76 2.24-5 5-5s5 2.24 5 5c0 1.04-.42 1.99-1.07 2.75z"/></svg>
-            <span>Panduan FAQ</span>
+            <span data-i18n="nav_faq">Panduan FAQ</span>
           </button>
         </nav>
       </div>
 
-      <div class="sidebar-footer">
-        <span>Status Server:</span>
-        <span class="server-status-dot">Online</span>
+      <div>
+        <div style="margin-bottom: 12px; padding: 0 4px;">
+          <div class="lang-switcher-pill" style="width:100%; justify-content:space-between;">
+            <button type="button" class="lang-btn active" id="btnLangIdDesk" onclick="setLanguage('id')" style="flex:1; justify-content:center;">🇮🇩 ID</button>
+            <button type="button" class="lang-btn" id="btnLangEnDesk" onclick="setLanguage('en')" style="flex:1; justify-content:center;">🇬🇧 EN</button>
+          </div>
+        </div>
+        <div class="sidebar-footer">
+          <span data-i18n="server_status_lbl">Status Server:</span>
+          <span class="server-status-dot" data-i18n="server_online">Online</span>
+        </div>
       </div>
     </aside>
 
@@ -1061,8 +1297,8 @@ if (isset($_GET['api_action'])) {
       <div id="viewGenerator" class="page-view active">
         
         <div class="page-header">
-          <h1 class="page-title">AM Premium Generator</h1>
-          <p class="page-subtitle">Aktifkan premium Alight Motion dalam 3 langkah mudah</p>
+          <h1 class="page-title" data-i18n="page1_title">AM Premium Generator</h1>
+          <p class="page-subtitle" data-i18n="page1_subtitle">Aktifkan premium Alight Motion dalam 3 langkah mudah</p>
         </div>
 
         <!-- SAAS DASHBOARD METRICS CARDS -->
@@ -1073,7 +1309,7 @@ if (isset($_GET['api_action'])) {
             </div>
             <div>
               <div class="metric-val" id="apiTotalCount">...</div>
-              <div class="metric-lbl">Total User API Key</div>
+              <div class="metric-lbl" data-i18n="metric1_lbl">Total User API Key</div>
             </div>
           </div>
 
@@ -1083,7 +1319,7 @@ if (isset($_GET['api_action'])) {
             </div>
             <div>
               <div class="metric-val" style="color:#60A5FA;">Online</div>
-              <div class="metric-lbl">Server Proxy Vercel</div>
+              <div class="metric-lbl" data-i18n="metric2_lbl">Server Proxy Vercel</div>
             </div>
           </div>
 
@@ -1093,7 +1329,7 @@ if (isset($_GET['api_action'])) {
             </div>
             <div>
               <div class="metric-val" style="color:#C084FC;">100%</div>
-              <div class="metric-lbl">Otomatis & Garansi</div>
+              <div class="metric-lbl" data-i18n="metric3_lbl">Otomatis & Garansi</div>
             </div>
           </div>
         </div>
@@ -1102,15 +1338,15 @@ if (isset($_GET['api_action'])) {
         <div class="steps-grid">
           <div id="stepCard1" class="step-card active">
             <div class="step-num" id="stepNum1">1</div>
-            <div class="step-text" id="stepTxt1">Hubungkan Akun</div>
+            <div class="step-text" id="stepTxt1" data-i18n="step1_title">Hubungkan Akun</div>
           </div>
           <div id="stepCard2" class="step-card">
             <div class="step-num" id="stepNum2">2</div>
-            <div class="step-text" id="stepTxt2">Tonton 5 Iklan</div>
+            <div class="step-text" id="stepTxt2" data-i18n="step2_title">Tonton 5 Iklan</div>
           </div>
           <div id="stepCard3" class="step-card">
             <div class="step-num" id="stepNum3">3</div>
-            <div class="step-text" id="stepTxt3">Premium Aktif!</div>
+            <div class="step-text" id="stepTxt3" data-i18n="step3_title">Premium Aktif!</div>
           </div>
         </div>
 
@@ -1124,16 +1360,16 @@ if (isset($_GET['api_action'])) {
                 <svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
               </div>
               <div>
-                <div class="panel-title">Langkah 1: Hubungkan Akun Alight Motion</div>
-                <div class="panel-desc">Masukkan email Alight Motion Anda untuk menerima magic link verifikasi</div>
+                <div class="panel-title" data-i18n="step1a_header_title">Langkah 1: Hubungkan Akun Alight Motion</div>
+                <div class="panel-desc" data-i18n="step1a_header_desc">Masukkan email Alight Motion Anda untuk menerima magic link verifikasi</div>
               </div>
             </div>
 
             <form onsubmit="handleSendEmail(event)">
               <div class="form-group">
-                <label for="emailInput" class="form-label">Email Alight Motion</label>
+                <label for="emailInput" class="form-label" data-i18n="email_input_lbl">Email Alight Motion</label>
                 <div class="input-wrapper">
-                  <input type="email" id="emailInput" class="input-field" placeholder="email@contoh.com" required autocomplete="email" />
+                  <input type="email" id="emailInput" class="input-field" placeholder="email@contoh.com" data-i18n-ph="email_placeholder" required autocomplete="email" />
                 </div>
                 <div class="chips-group">
                   <span class="chip" onclick="appendDomain('@gmail.com')">+ @gmail.com</span>
@@ -1143,7 +1379,7 @@ if (isset($_GET['api_action'])) {
               </div>
 
               <button type="submit" id="btnStep1" class="btn-blue" style="width:100%;">
-                <span>Kirim Magic Link</span>
+                <span data-i18n="btn_send_magic">Kirim Magic Link</span>
               </button>
             </form>
           </div>
@@ -1152,7 +1388,7 @@ if (isset($_GET['api_action'])) {
           <div id="step1BView" style="display:none;">
             <div class="alert-banner-green">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
-              <span>Magic link terkirim! Cek email Anda (termasuk spam).</span>
+              <span data-i18n="step1b_banner">Magic link terkirim! Cek email Anda (termasuk spam).</span>
             </div>
 
             <div class="panel-header">
@@ -1160,25 +1396,25 @@ if (isset($_GET['api_action'])) {
                 <svg viewBox="0 0 24 24"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/></svg>
               </div>
               <div>
-                <div class="panel-title">Verifikasi Magic Link</div>
-                <div class="panel-desc">Cek email Anda (termasuk folder spam), copy link yang dikirim, paste di bawah</div>
+                <div class="panel-title" data-i18n="step1b_header_title">Verifikasi Magic Link</div>
+                <div class="panel-desc" data-i18n="step1b_header_desc">Cek email Anda (termasuk folder spam), copy link yang dikirim, paste di bawah</div>
               </div>
             </div>
 
             <form onsubmit="handleVerifyLink(event)">
               <div class="form-group">
-                <label for="linkInput" class="form-label" style="font-family:monospace; font-size:0.85rem; letter-spacing:0;">Magic Link dari Email</label>
+                <label for="linkInput" class="form-label" style="font-family:monospace; font-size:0.85rem; letter-spacing:0;" data-i18n="link_input_lbl">Magic Link dari Email</label>
                 <div class="input-wrapper">
-                  <input type="url" id="linkInput" class="input-field" placeholder="https://alightcreative.com?oobCode=..." required autocomplete="off" />
+                  <input type="url" id="linkInput" class="input-field" placeholder="https://alightcreative.com?oobCode=..." data-i18n-ph="link_placeholder" required autocomplete="off" />
                 </div>
               </div>
 
               <div class="btn-row">
                 <button type="button" class="btn-secondary" onclick="setWizardStep('1A')">
-                  <span>Kembali</span>
+                  <span data-i18n="btn_back">Kembali</span>
                 </button>
                 <button type="submit" id="btnStep1B" class="btn-blue">
-                  <span>Verifikasi & Tautkan</span>
+                  <span data-i18n="btn_verify">Verifikasi & Tautkan</span>
                 </button>
               </div>
             </form>
@@ -1188,7 +1424,7 @@ if (isset($_GET['api_action'])) {
           <div id="step2View" style="display:none;">
             <div class="alert-banner-green">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
-              <span>Akun Firebase berhasil ditautkan! Sekarang selesaikan 5 iklan.</span>
+              <span data-i18n="step2_banner">Akun Firebase berhasil ditautkan! Sekarang selesaikan 5 iklan.</span>
             </div>
 
             <div class="panel-header">
@@ -1196,8 +1432,8 @@ if (isset($_GET['api_action'])) {
                 <svg viewBox="0 0 24 24"><path d="M21 3H3c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h5v2h8v-2h5c1.1 0 1.99-.9 1.99-2L23 5c0-1.1-.9-2-2-2zm0 14H3V5h18v12z"/></svg>
               </div>
               <div>
-                <div class="panel-title">Langkah 2: Selesaikan 5 Iklan</div>
-                <div class="panel-desc">Tonton 5 iklan untuk mengaktifkan premium</div>
+                <div class="panel-title" data-i18n="step2_header_title">Langkah 2: Selesaikan 5 Iklan</div>
+                <div class="panel-desc" data-i18n="step2_header_desc">Tonton 5 iklan untuk mengaktifkan premium</div>
               </div>
             </div>
 
@@ -1227,7 +1463,7 @@ if (isset($_GET['api_action'])) {
 
             <button type="button" id="btnMainAdTask" class="btn-blue" style="width:100%; padding:18px;" onclick="triggerAdModal()">
               <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M21 3H3c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h5v2h8v-2h5c1.1 0 1.99-.9 1.99-2L23 5c0-1.1-.9-2-2-2zm0 14H3V5h18v12z"/></svg>
-              <span id="btnMainAdText">Tonton Iklan #1</span>
+              <span id="btnMainAdText" data-i18n="btn_watch_ad_1">Tonton Iklan #1</span>
             </button>
           </div>
 
@@ -1237,7 +1473,7 @@ if (isset($_GET['api_action'])) {
             <div id="step3PendingBox">
               <div class="alert-banner-green">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
-                <span>5/5 Iklan selesai! Siap untuk mengaktifkan lisensi Premium.</span>
+                <span data-i18n="step3_pre_banner">5/5 Iklan selesai! Siap untuk mengaktifkan lisensi Premium.</span>
               </div>
 
               <div class="panel-header">
@@ -1245,24 +1481,24 @@ if (isset($_GET['api_action'])) {
                   <svg viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-2 16l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z"/></svg>
                 </div>
                 <div>
-                  <div class="panel-title">Langkah 3: Aktifkan Premium</div>
-                  <div class="panel-desc">Klik tombol di bawah untuk mengaktifkan akun Alight Motion Anda secara otomatis</div>
+                  <div class="panel-title" data-i18n="step3_header_title">Langkah 3: Aktifkan Premium</div>
+                  <div class="panel-desc" data-i18n="step3_header_desc">Klik tombol di bawah untuk mengaktifkan akun Alight Motion Anda secara otomatis</div>
                 </div>
               </div>
 
               <div style="background:var(--input-bg); border:1px solid var(--card-border); border-radius:12px; padding:16px; margin-bottom:24px;">
                 <div class="data-row">
-                  <span class="data-key">Email Terhubung</span>
+                  <span class="data-key" data-i18n="step3_lbl_email">Email Terhubung</span>
                   <span id="step3PreEmail" class="data-val" style="color:var(--text-title); font-weight:700;">-</span>
                 </div>
                 <div class="data-row">
-                  <span class="data-key">Status Syarat</span>
-                  <span style="color:#34D399; font-weight:800;">✓ 5/5 Iklan Selesai</span>
+                  <span class="data-key" data-i18n="step3_lbl_req">Status Syarat</span>
+                  <span style="color:#34D399; font-weight:800;" data-i18n="step3_req_done">✓ 5/5 Iklan Selesai</span>
                 </div>
               </div>
 
               <button type="button" id="btnActivateFinal" class="btn-blue" style="width:100%; padding:18px; font-weight:800; background:linear-gradient(135deg, #10B981, #059669); box-shadow:0 6px 20px rgba(16,185,129,0.3);" onclick="processFinalActivation()">
-                <span>🚀 Aktifkan Premium Sekarang</span>
+                <span data-i18n="btn_activate_final">🚀 Aktifkan Premium Sekarang</span>
               </button>
             </div>
 
@@ -1274,24 +1510,24 @@ if (isset($_GET['api_action'])) {
                     <svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
                   </div>
                   <div>
-                    <h3 style="color:#34D399; font-size:1.1rem; font-weight:800;">Akun Berhasil Diaktifkan! 🎉</h3>
-                    <p style="font-size:0.85rem; color:var(--text-sub);">Status Lisensi Alight Motion Anda sekarang Aktif Premium.</p>
+                    <h3 style="color:#34D399; font-size:1.1rem; font-weight:800;" data-i18n="step3_post_title">Akun Berhasil Diaktifkan! 🎉</h3>
+                    <p style="font-size:0.85rem; color:var(--text-sub);" data-i18n="step3_post_desc">Status Lisensi Alight Motion Anda sekarang Aktif Premium.</p>
                   </div>
                 </div>
 
                 <div class="data-row">
-                  <span class="data-key">Status Lisensi</span>
+                  <span class="data-key" data-i18n="lbl_license_status">Status Lisensi</span>
                   <span style="color:#34D399; font-weight:800; background:rgba(16,185,129,0.15); padding:3px 10px; border-radius:6px;">ACTIVE PREMIUM</span>
                 </div>
                 <div class="data-row">
-                  <span class="data-key">Email Terdaftar</span>
+                  <span class="data-key" data-i18n="lbl_reg_email">Email Terdaftar</span>
                   <span id="resEmail" class="data-val">-</span>
                 </div>
                 <div class="data-row">
-                  <span class="data-key">Kode Order</span>
+                  <span class="data-key" data-i18n="lbl_order_code">Kode Order</span>
                   <div>
                     <span id="resCode" class="code-order-badge">AM-000000</span>
-                    <button type="button" id="btnCopyCode" onclick="copyCode()" style="background:none; border:none; color:var(--blue-primary); cursor:pointer; font-weight:700; margin-left:8px;">Salin</button>
+                    <button type="button" id="btnCopyCode" onclick="copyCode()" style="background:none; border:none; color:var(--blue-primary); cursor:pointer; font-weight:700; margin-left:8px;" data-i18n="btn_copy">Salin</button>
                   </div>
                 </div>
               </div>
@@ -1299,10 +1535,10 @@ if (isset($_GET['api_action'])) {
               <div class="btn-row">
                 <button type="button" class="btn-secondary" onclick="resetWizard()">
                   <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
-                  <span>Kembali</span>
+                  <span data-i18n="btn_back">Kembali</span>
                 </button>
                 <button type="button" class="btn-blue" onclick="resetWizard()">
-                  <span>Aktivasi Akun Lain</span>
+                  <span data-i18n="btn_activate_another">Aktivasi Akun Lain</span>
                 </button>
               </div>
             </div>
@@ -1310,27 +1546,27 @@ if (isset($_GET['api_action'])) {
 
         </div>
 
-        <!-- AD WATCHING MODAL DIALOG (Screenshots 4 & 5) -->
+        <!-- AD WATCHING MODAL DIALOG (Screenshots 4, 5 & 6) -->
         <div id="adModal" class="modal-overlay">
           <div class="modal-card">
             <div id="adModalIcon" class="modal-warn-icon">!</div>
             
             <div class="modal-title" id="adModalTitle">Iklan 1 / 5</div>
-            <div class="modal-subtitle" id="adModalSubtitle" style="display:none;">Klik tombol di bawah setelah kamu kembali dari halaman mitra.</div>
+            <div class="modal-subtitle" id="adModalSubtitle" style="display:none;" data-i18n="ad_sub_returned">Klik tombol di bawah setelah kamu kembali dari halaman mitra.</div>
             
             <div id="adModalInstructions" class="modal-instruction-box">
-              <div class="modal-instruction-header">Kamu akan diarahkan ke halaman mitra. <span style="color:#F59E0B;">Jangan panik!</span></div>
+              <div class="modal-instruction-header" data-i18n="ad_instruction_header">Kamu akan diarahkan ke halaman mitra. <span style="color:#F59E0B;">Jangan panik!</span></div>
               <ul class="modal-instruction-list">
-                <li>• Setelah halaman mitra terbuka, <strong>tutup tab</strong> tersebut</li>
-                <li>• Kembali ke halaman ini</li>
-                <li>• Klik <strong>"Ya, Saya Sudah Kembali"</strong></li>
+                <li data-i18n="ad_instruction_1">• Setelah halaman mitra terbuka, <strong>tutup tab</strong> tersebut</li>
+                <li data-i18n="ad_instruction_2">• Kembali ke halaman ini</li>
+                <li data-i18n="ad_instruction_3">• Klik <strong>"Ya, Saya Sudah Kembali"</strong></li>
               </ul>
             </div>
 
-            <div id="adModalSubtext" class="modal-subtext">Iklan ini membantu kami tetap gratis. Terima kasih! 🙏</div>
+            <div id="adModalSubtext" class="modal-subtext" data-i18n="ad_subtext">Iklan ini membantu kami tetap gratis. Terima kasih! 🙏</div>
 
             <button type="button" id="btnModalAction" class="btn-blue" style="width:100%; padding:16px; font-weight:800;" onclick="handleAdModalButtonClick()">
-              <span>Buka Iklan</span>
+              <span data-i18n="ad_btn_open">Buka Iklan</span>
             </button>
 
             <div class="modal-progress-bar-container">
@@ -1345,11 +1581,11 @@ if (isset($_GET['api_action'])) {
           <div class="feed-header">
             <div class="feed-title">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="var(--blue-primary)"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
-              <span>Aktivasi Terbaru Pengguna</span>
+              <span data-i18n="feed_title">Aktivasi Terbaru Pengguna</span>
             </div>
             <div class="feed-pulse">
               <span style="width:6px; height:6px; background:#34D399; border-radius:50%; box-shadow:0 0 6px #34D399;"></span>
-              <span>Live Updates</span>
+              <span data-i18n="feed_pulse">Live Updates</span>
             </div>
           </div>
 
@@ -1394,37 +1630,37 @@ if (isset($_GET['api_action'])) {
       <!-- ================= VIEW 2: CEK ORDER STATUS ================= -->
       <div id="viewCheck" class="page-view">
         <div class="page-header">
-          <h1 class="page-title">Server Status & Cek Order</h1>
-          <p class="page-subtitle">Periksa keabsahan dan masa aktif lisensi Anda berdasarkan Kode Order</p>
+          <h1 class="page-title" data-i18n="page2_title">Server Status & Cek Order</h1>
+          <p class="page-subtitle" data-i18n="page2_subtitle">Periksa keabsahan dan masa aktif lisensi Anda berdasarkan Kode Order</p>
         </div>
 
         <div class="panel-card">
           <form onsubmit="handleSearchOrder(event)">
             <div class="form-group">
-              <label for="searchCodeInput" class="form-label">Kode Order (Contoh: AM-982314)</label>
+              <label for="searchCodeInput" class="form-label" data-i18n="search_code_lbl">Kode Order (Contoh: AM-982314)</label>
               <div class="input-wrapper">
-                <input type="text" id="searchCodeInput" class="input-field" placeholder="Masukkan Kode Order..." required />
+                <input type="text" id="searchCodeInput" class="input-field" placeholder="Masukkan Kode Order..." data-i18n-ph="search_code_ph" required />
               </div>
             </div>
             
             <div class="btn-row">
               <button type="button" class="btn-secondary" onclick="switchTab('generator')">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
-                <span>Kembali</span>
+                <span data-i18n="btn_back">Kembali</span>
               </button>
-              <button type="submit" class="btn-blue">Periksa Status Lisensi</button>
+              <button type="submit" class="btn-blue" data-i18n="btn_check_status">Periksa Status Lisensi</button>
             </div>
           </form>
 
           <div id="searchResBox" style="display:none; margin-top:24px;">
             <div class="success-box" style="background:rgba(59,130,246,0.08); border-color:rgba(59,130,246,0.25);">
               <div class="data-row">
-                <span class="data-key">Kode Order</span>
+                <span class="data-key" data-i18n="lbl_order_code">Kode Order</span>
                 <span id="searchResCode" class="code-order-badge">AM-000000</span>
               </div>
               <div class="data-row">
-                <span class="data-key">Status Lisensi</span>
-                <span style="color:#34D399; font-weight:800;">TERVERIFIKASI PREMIUM</span>
+                <span class="data-key" data-i18n="lbl_license_status">Status Lisensi</span>
+                <span style="color:#34D399; font-weight:800;" data-i18n="search_res_status">TERVERIFIKASI PREMIUM</span>
               </div>
             </div>
           </div>
@@ -1434,38 +1670,38 @@ if (isset($_GET['api_action'])) {
       <!-- ================= VIEW 3: FAQ ================= -->
       <div id="viewFaq" class="page-view">
         <div class="page-header">
-          <h1 class="page-title">Panduan & Pertanyaan Umum</h1>
-          <p class="page-subtitle">Petunjuk lengkap cara melakukan aktivasi Alight Motion Premium</p>
+          <h1 class="page-title" data-i18n="page3_title">Panduan & Pertanyaan Umum</h1>
+          <p class="page-subtitle" data-i18n="page3_subtitle">Petunjuk lengkap cara melakukan aktivasi Alight Motion Premium</p>
         </div>
 
         <div class="panel-card">
           <div class="faq-list">
             <div class="faq-item" onclick="toggleFaq(this)">
               <div class="faq-header">
-                <span>1. Bagaimana cara mendapatkan link verifikasi?</span>
+                <span data-i18n="faq1_q">1. Bagaimana cara mendapatkan link verifikasi?</span>
                 <svg class="faq-icon" viewBox="0 0 24 24"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/></svg>
               </div>
-              <div class="faq-body">
+              <div class="faq-body" data-i18n="faq1_a">
                 Setelah Anda memasukkan email pada Langkah 1, buka aplikasi Gmail pada smartphone Anda. Cari email dari <strong>Alight Creative</strong>, lalu tekan dan tahan tombol verifikasi di email untuk menyalin alamat link URL-nya.
               </div>
             </div>
 
             <div class="faq-item" onclick="toggleFaq(this)">
               <div class="faq-header">
-                <span>2. Mengapa email verifikasi belum juga masuk?</span>
+                <span data-i18n="faq2_q">2. Mengapa email verifikasi belum juga masuk?</span>
                 <svg class="faq-icon" viewBox="0 0 24 24"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/></svg>
               </div>
-              <div class="faq-body">
+              <div class="faq-body" data-i18n="faq2_a">
                 Pastikan Anda memeriksa folder <strong>Spam / Promosi</strong> pada akun Gmail Anda. Pastikan juga alamat email yang diketikkan di Langkah 1 sudah benar tanpa ada kesalahan ketik (typo).
               </div>
             </div>
 
             <div class="faq-item" onclick="toggleFaq(this)">
               <div class="faq-header">
-                <span>3. Apakah sistem aktivasi bekerja otomatis?</span>
+                <span data-i18n="faq3_q">3. Apakah sistem aktivasi bekerja otomatis?</span>
                 <svg class="faq-icon" viewBox="0 0 24 24"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/></svg>
               </div>
-              <div class="faq-body">
+              <div class="faq-body" data-i18n="faq3_a">
                 Ya! Sistem backend diproses secara instan 24 jam nonstop oleh server otomatis setelah Anda menempelkan link verifikasi.
               </div>
             </div>
@@ -1474,7 +1710,7 @@ if (isset($_GET['api_action'])) {
           <div style="margin-top: 24px;">
             <button type="button" class="btn-secondary" style="width: auto;" onclick="switchTab('generator')">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
-              <span>Kembali ke Generator</span>
+              <span data-i18n="btn_back_to_gen">Kembali ke Generator</span>
             </button>
           </div>
         </div>
@@ -1488,15 +1724,15 @@ if (isset($_GET['api_action'])) {
   <nav class="mobile-bottom-nav">
     <button class="mob-nav-item active" id="mNavGen" onclick="switchTab('generator')">
       <svg viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
-      <span>AM Generator</span>
+      <span data-i18n="mob_nav_gen">AM Generator</span>
     </button>
     <button class="mob-nav-item" id="mNavCheck" onclick="switchTab('check')">
-      <svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 14z"/></svg>
-      <span>Status Order</span>
+      <svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+      <span data-i18n="mob_nav_check">Status Order</span>
     </button>
     <button class="mob-nav-item" id="mNavFaq" onclick="switchTab('faq')">
       <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 16h-2v-2h2v2zm1.07-7.75l-.9.92C12.45 11.9 12 12.5 12 14h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H7c0-2.76 2.24-5 5-5s5 2.24 5 5c0 1.04-.42 1.99-1.07 2.75z"/></svg>
-      <span>Panduan</span>
+      <span data-i18n="mob_nav_faq">Panduan</span>
     </button>
   </nav>
 
@@ -1505,6 +1741,219 @@ if (isset($_GET['api_action'])) {
 
   <!-- ANTI INSPECT & SOURCE CODE PROTECTION SCRIPT -->
   <script>
+    // ==========================================================================
+    // MULTI-LANGUAGE TRANSLATION ENGINE (i18n: ID / EN)
+    // ==========================================================================
+    const i18nData = {
+      id: {
+        nav_generator: "AM Generator",
+        nav_check: "Server Status / Cek Order",
+        nav_faq: "Panduan FAQ",
+        server_status_lbl: "Status Server:",
+        server_online: "Online",
+        mob_nav_gen: "AM Generator",
+        mob_nav_check: "Status Order",
+        mob_nav_faq: "Panduan",
+        page1_title: "AM Premium Generator",
+        page1_subtitle: "Aktifkan premium Alight Motion dalam 3 langkah mudah",
+        metric1_lbl: "Total User API Key",
+        metric2_lbl: "Server Proxy Vercel",
+        metric3_lbl: "Otomatis & Garansi",
+        step1_title: "Hubungkan Akun",
+        step2_title: "Tonton 5 Iklan",
+        step3_title: "Premium Aktif!",
+        step1a_header_title: "Langkah 1: Hubungkan Akun Alight Motion",
+        step1a_header_desc: "Masukkan email Alight Motion Anda untuk menerima magic link verifikasi",
+        email_input_lbl: "Email Alight Motion",
+        email_placeholder: "email@contoh.com",
+        btn_send_magic: "Kirim Magic Link",
+        step1b_banner: "Magic link terkirim! Cek email Anda (termasuk spam).",
+        step1b_header_title: "Verifikasi Magic Link",
+        step1b_header_desc: "Cek email Anda (termasuk folder spam), copy link yang dikirim, paste di bawah",
+        link_input_lbl: "Magic Link dari Email",
+        link_placeholder: "https://alightcreative.com?oobCode=...",
+        btn_back: "Kembali",
+        btn_verify: "Verifikasi & Tautkan",
+        step2_banner: "Akun Firebase berhasil ditautkan! Sekarang selesaikan 5 iklan.",
+        step2_header_title: "Langkah 2: Selesaikan 5 Iklan",
+        step2_header_desc: "Tonton 5 iklan untuk mengaktifkan premium",
+        btn_watch_ad_1: "Tonton Iklan #1",
+        step3_pre_banner: "5/5 Iklan selesai! Siap untuk mengaktifkan lisensi Premium.",
+        step3_header_title: "Langkah 3: Aktifkan Premium",
+        step3_header_desc: "Klik tombol di bawah untuk mengaktifkan akun Alight Motion Anda secara otomatis",
+        step3_lbl_email: "Email Terhubung",
+        step3_lbl_req: "Status Syarat",
+        step3_req_done: "✓ 5/5 Iklan Selesai",
+        btn_activate_final: "🚀 Aktifkan Premium Sekarang",
+        step3_post_title: "Akun Berhasil Diaktifkan! 🎉",
+        step3_post_desc: "Status Lisensi Alight Motion Anda sekarang Aktif Premium.",
+        lbl_license_status: "Status Lisensi",
+        lbl_reg_email: "Email Terdaftar",
+        lbl_order_code: "Kode Order",
+        btn_copy: "Salin",
+        btn_copied: "Tersalin!",
+        btn_activate_another: "Aktivasi Akun Lain",
+        ad_instruction_header: "Kamu akan diarahkan ke halaman mitra. Jangan panik!",
+        ad_instruction_1: "• Setelah halaman mitra terbuka, tutup tab tersebut",
+        ad_instruction_2: "• Kembali ke halaman ini",
+        ad_instruction_3: "• Klik \"Ya, Saya Sudah Kembali\"",
+        ad_subtext: "Iklan ini membantu kami tetap gratis. Terima kasih! 🙏",
+        ad_btn_open: "Buka Iklan",
+        ad_title_returned: "Sudah Kembali?",
+        ad_sub_returned: "Klik tombol di bawah setelah kamu kembali dari halaman mitra.",
+        ad_btn_returned: "Ya, Saya Sudah Kembali",
+        ad_title_completed: "Semua Iklan Selesai! 🎉",
+        ad_sub_completed: "Terima kasih! Kamu sudah menyelesaikan 5 iklan.",
+        ad_btn_continue: "Lanjutkan →",
+        feed_title: "Aktivasi Terbaru Pengguna",
+        feed_pulse: "Live Updates",
+        page2_title: "Server Status & Cek Order",
+        page2_subtitle: "Periksa keabsahan dan masa aktif lisensi Anda berdasarkan Kode Order",
+        search_code_lbl: "Kode Order (Contoh: AM-982314)",
+        search_code_ph: "Masukkan Kode Order...",
+        btn_check_status: "Periksa Status Lisensi",
+        search_res_status: "TERVERIFIKASI PREMIUM",
+        page3_title: "Panduan & Pertanyaan Umum",
+        page3_subtitle: "Petunjuk lengkap cara melakukan aktivasi Alight Motion Premium",
+        faq1_q: "1. Bagaimana cara mendapatkan link verifikasi?",
+        faq1_a: "Setelah Anda memasukkan email pada Langkah 1, buka aplikasi Gmail pada smartphone Anda. Cari email dari Alight Creative, lalu tekan dan tahan tombol verifikasi di email untuk menyalin alamat link URL-nya.",
+        faq2_q: "2. Mengapa email verifikasi belum juga masuk?",
+        faq2_a: "Pastikan Anda memeriksa folder Spam / Promosi pada akun Gmail Anda. Pastikan juga alamat email yang diketikkan di Langkah 1 sudah benar tanpa ada kesalahan ketik (typo).",
+        faq3_q: "3. Apakah sistem aktivasi bekerja otomatis?",
+        faq3_a: "Ya! Sistem backend diproses secara instan 24 jam nonstop oleh server otomatis setelah Anda menempelkan link verifikasi.",
+        btn_back_to_gen: "Kembali ke Generator",
+        ad_next: "Next",
+        ad_locked: "Locked",
+        ad_done: "Done",
+        time_just_now: "Baru saja",
+        time_min_ago: "menit lalu",
+        time_hour_ago: "jam lalu",
+        time_day_ago: "hari lalu"
+      },
+      en: {
+        nav_generator: "AM Generator",
+        nav_check: "Server Status / Order Check",
+        nav_faq: "FAQ & Guide",
+        server_status_lbl: "Server Status:",
+        server_online: "Online",
+        mob_nav_gen: "AM Generator",
+        mob_nav_check: "Order Status",
+        mob_nav_faq: "Guide",
+        page1_title: "AM Premium Generator",
+        page1_subtitle: "Activate Alight Motion Premium in 3 easy steps",
+        metric1_lbl: "Total User API Keys",
+        metric2_lbl: "Vercel Proxy Server",
+        metric3_lbl: "Automatic & Guaranteed",
+        step1_title: "Connect Account",
+        step2_title: "Watch 5 Ads",
+        step3_title: "Premium Active!",
+        step1a_header_title: "Step 1: Connect Alight Motion Account",
+        step1a_header_desc: "Enter your Alight Motion email to receive the magic verification link",
+        email_input_lbl: "Alight Motion Email",
+        email_placeholder: "email@example.com",
+        btn_send_magic: "Send Magic Link",
+        step1b_banner: "Magic link sent! Check your email (including spam folder).",
+        step1b_header_title: "Verify Magic Link",
+        step1b_header_desc: "Check your email (including spam folder), copy the sent link, and paste below",
+        link_input_lbl: "Magic Link from Email",
+        link_placeholder: "https://alightcreative.com?oobCode=...",
+        btn_back: "Back",
+        btn_verify: "Verify & Link Account",
+        step2_banner: "Firebase account linked successfully! Now complete 5 ads.",
+        step2_header_title: "Step 2: Complete 5 Ads",
+        step2_header_desc: "Watch 5 ads to activate premium",
+        btn_watch_ad_1: "Watch Ad #1",
+        step3_pre_banner: "5/5 Ads completed! Ready to activate Premium license.",
+        step3_header_title: "Step 3: Activate Premium",
+        step3_header_desc: "Click the button below to automatically activate your Alight Motion account",
+        step3_lbl_email: "Connected Email",
+        step3_lbl_req: "Requirement Status",
+        step3_req_done: "✓ 5/5 Ads Completed",
+        btn_activate_final: "🚀 Activate Premium Now",
+        step3_post_title: "Account Activated Successfully! 🎉",
+        step3_post_desc: "Your Alight Motion license status is now Active Premium.",
+        lbl_license_status: "License Status",
+        lbl_reg_email: "Registered Email",
+        lbl_order_code: "Order Code",
+        btn_copy: "Copy",
+        btn_copied: "Copied!",
+        btn_activate_another: "Activate Another Account",
+        ad_instruction_header: "You will be redirected to a sponsor page. Don't panic!",
+        ad_instruction_1: "• Once the sponsor page opens, close that tab",
+        ad_instruction_2: "• Return to this page",
+        ad_instruction_3: "• Click \"Yes, I Have Returned\"",
+        ad_subtext: "These ads help keep our service free. Thank you! 🙏",
+        ad_btn_open: "Open Ad",
+        ad_title_returned: "Have You Returned?",
+        ad_sub_returned: "Click the button below after you return from the sponsor page.",
+        ad_btn_returned: "Yes, I Have Returned",
+        ad_title_completed: "All Ads Completed! 🎉",
+        ad_sub_completed: "Thank you! You have completed all 5 ads.",
+        ad_btn_continue: "Continue →",
+        feed_title: "Recent User Activations",
+        feed_pulse: "Live Updates",
+        page2_title: "Server Status & Order Check",
+        page2_subtitle: "Check the validity and active status of your license by Order Code",
+        search_code_lbl: "Order Code (Example: AM-982314)",
+        search_code_ph: "Enter Order Code...",
+        btn_check_status: "Check License Status",
+        search_res_status: "VERIFIED PREMIUM",
+        page3_title: "Guide & FAQ",
+        page3_subtitle: "Complete instructions on how to activate Alight Motion Premium",
+        faq1_q: "1. How do I get the verification link?",
+        faq1_a: "After entering your email in Step 1, open the Gmail app on your smartphone. Find the email from Alight Creative, then press and hold the verification button in the email to copy its link URL.",
+        faq2_q: "2. Why hasn't the verification email arrived yet?",
+        faq2_a: "Make sure to check the Spam / Promotions folder in your Gmail account. Also ensure that the email address typed in Step 1 is correct without any typos.",
+        faq3_q: "3. Does the activation system work automatically?",
+        faq3_a: "Yes! The backend system processes instantly 24/7 via automated servers as soon as you paste the verification link.",
+        btn_back_to_gen: "Back to Generator",
+        ad_next: "Next",
+        ad_locked: "Locked",
+        ad_done: "Done",
+        time_just_now: "Just now",
+        time_min_ago: "mins ago",
+        time_hour_ago: "hours ago",
+        time_day_ago: "days ago"
+      }
+    };
+
+    let currentLang = localStorage.getItem('am_lang') || 'id';
+
+    function setLanguage(lang) {
+      if (!i18nData[lang]) lang = 'id';
+      currentLang = lang;
+      localStorage.setItem('am_lang', lang);
+
+      const btnIdMob = document.getElementById("btnLangIdMob");
+      const btnEnMob = document.getElementById("btnLangEnMob");
+      const btnIdDesk = document.getElementById("btnLangIdDesk");
+      const btnEnDesk = document.getElementById("btnLangEnDesk");
+
+      if (btnIdMob) btnIdMob.classList.toggle("active", lang === 'id');
+      if (btnEnMob) btnEnMob.classList.toggle("active", lang === 'en');
+      if (btnIdDesk) btnIdDesk.classList.toggle("active", lang === 'id');
+      if (btnEnDesk) btnEnDesk.classList.toggle("active", lang === 'en');
+
+      const elements = document.querySelectorAll("[data-i18n]");
+      elements.forEach(el => {
+        const key = el.getAttribute("data-i18n");
+        if (i18nData[lang] && i18nData[lang][key]) {
+          el.textContent = i18nData[lang][key];
+        }
+      });
+
+      const placeholders = document.querySelectorAll("[data-i18n-ph]");
+      placeholders.forEach(el => {
+        const key = el.getAttribute("data-i18n-ph");
+        if (i18nData[lang] && i18nData[lang][key]) {
+          el.placeholder = i18nData[lang][key];
+        }
+      });
+
+      if (typeof updateSubAdBoxes === 'function') {
+        updateSubAdBoxes();
+      }
+    }
     // 1. DISABLE RIGHT CLICK (CONTEXT MENU)
     document.addEventListener("contextmenu", function(e) {
       e.preventDefault();
@@ -1712,7 +2161,7 @@ if (isset($_GET['api_action'])) {
     }
 
     let watchedAdsCount = 0;
-    let adModalState = 'initial'; // 'initial' (Buka Iklan) or 'opened' (Ya, Saya Sudah Kembali)
+    let adModalState = 'initial'; // 'initial' | 'opened' | 'completed'
 
     function setWizardStep(stepNum) {
       document.getElementById("step1AView").style.display = (stepNum === 1 || stepNum === '1A') ? "block" : "none";
@@ -1820,7 +2269,7 @@ if (isset($_GET['api_action'])) {
       } else if (adModalState === 'completed') {
         // 4. User clicked "Lanjutkan →" in Screenshot 6 State
         document.getElementById("adModal").classList.remove("show");
-        processFinalActivation();
+        setWizardStep(3);
       }
     }
 
@@ -1848,32 +2297,41 @@ if (isset($_GET['api_action'])) {
     }
 
     function updateSubAdBoxes() {
+      const nextTxt = (i18nData[currentLang] && i18nData[currentLang].ad_next) ? i18nData[currentLang].ad_next : "Next";
+      const lockedTxt = (i18nData[currentLang] && i18nData[currentLang].ad_locked) ? i18nData[currentLang].ad_locked : "Locked";
+      const doneTxt = (i18nData[currentLang] && i18nData[currentLang].ad_done) ? i18nData[currentLang].ad_done : "Done";
+
       for (let i = 1; i <= 5; i++) {
         const box = document.getElementById(`subAdBox${i}`);
         const lbl = document.getElementById(`subAdLbl${i}`);
         const num = document.getElementById(`subAdNum${i}`);
 
-        box.className = "ad-sub-box";
-        if (i <= watchedAdsCount) {
-          box.classList.add("completed");
-          num.textContent = "✓";
-          lbl.textContent = "Done";
-        } else if (i === watchedAdsCount + 1) {
-          box.classList.add("active");
-          num.textContent = i.toString();
-          lbl.textContent = "Next";
-        } else {
-          num.textContent = i.toString();
-          lbl.textContent = "Locked";
+        if (box && lbl && num) {
+          box.className = "ad-sub-box";
+          if (i <= watchedAdsCount) {
+            box.classList.add("completed");
+            num.textContent = "✓";
+            lbl.textContent = doneTxt;
+          } else if (i === watchedAdsCount + 1) {
+            box.classList.add("active");
+            num.textContent = i.toString();
+            lbl.textContent = nextTxt;
+          } else {
+            num.textContent = i.toString();
+            lbl.textContent = lockedTxt;
+          }
         }
       }
 
       const btnMainText = document.getElementById("btnMainAdText");
-      if (watchedAdsCount < 5) {
-        btnMainText.textContent = `Tonton Iklan #${watchedAdsCount + 1}`;
-      } else {
-        btnMainText.textContent = `🚀 Aktifkan Premium Sekarang!`;
-        document.getElementById("btnMainAdTask").style.background = "linear-gradient(135deg, #10B981, #059669)";
+      if (btnMainText) {
+        if (watchedAdsCount < 5) {
+          btnMainText.textContent = currentLang === 'en' ? `Watch Ad #${watchedAdsCount + 1}` : `Tonton Iklan #${watchedAdsCount + 1}`;
+        } else {
+          btnMainText.textContent = currentLang === 'en' ? `🚀 Activate Premium Now!` : `🚀 Aktifkan Premium Sekarang!`;
+          const btnTask = document.getElementById("btnMainAdTask");
+          if (btnTask) btnTask.style.background = "linear-gradient(135deg, #10B981, #059669)";
+        }
       }
     }
 
@@ -1902,37 +2360,37 @@ if (isset($_GET['api_action'])) {
     async function handleSendEmail(e) {
       e.preventDefault();
       const email = document.getElementById("emailInput").value.trim();
-      if (!email) return showToast("Silakan masukkan email kamu.");
+      if (!email) return showToast(currentLang === 'en' ? "Please enter your email." : "Silakan masukkan email kamu.");
 
       const btn = document.getElementById("btnStep1");
       btn.disabled = true;
-      btn.innerHTML = `<div class="spinner"></div><span>Memproses...</span>`;
+      btn.innerHTML = `<div class="spinner"></div><span>${currentLang === 'en' ? "Processing..." : "Memproses..."}</span>`;
 
       try {
         const data = await callApi('send', { email });
 
         if (data.status === false || data.error) {
-          throw new Error(data.message || data.error || "Gagal mengirim magic link.");
+          throw new Error(data.message || data.error || (currentLang === 'en' ? "Failed to send magic link." : "Gagal mengirim magic link."));
         }
 
         appState.email = email;
-        showToast("Magic link terkirim ke email!", "success");
+        showToast(currentLang === 'en' ? "Magic link sent to email!" : "Magic link terkirim ke email!", "success");
         setWizardStep('1B');
       } catch (err) {
-        showToast(err.message || "Gagal terhubung ke server.");
+        showToast(err.message || (currentLang === 'en' ? "Failed to connect to server." : "Gagal terhubung ke server."));
       } finally {
         btn.disabled = false;
-        btn.innerHTML = `<span>Kirim Magic Link</span>`;
+        btn.innerHTML = `<span data-i18n="btn_send_magic">${i18nData[currentLang]?.btn_send_magic || "Kirim Magic Link"}</span>`;
       }
     }
 
     function handleVerifyLink(e) {
       e.preventDefault();
       const link = document.getElementById("linkInput").value.trim();
-      if (!link) return showToast("Masukkan link verifikasi.");
+      if (!link) return showToast(currentLang === 'en' ? "Enter verification link." : "Masukkan link verifikasi.");
 
       appState.link = link;
-      showToast("Tautan berhasil! Silakan selesaikan 5 iklan.", "success");
+      showToast(currentLang === 'en' ? "Link successful! Please complete 5 ads." : "Tautan berhasil! Silakan selesaikan 5 iklan.", "success");
       setWizardStep(2);
     }
 
@@ -1941,7 +2399,7 @@ if (isset($_GET['api_action'])) {
       const btnMain = document.getElementById("btnMainAdTask");
       if (btn) {
         btn.disabled = true;
-        btn.innerHTML = `<div class="spinner"></div><span>Memproses Aktivasi Premium...</span>`;
+        btn.innerHTML = `<div class="spinner"></div><span>${currentLang === 'en' ? "Processing Premium Activation..." : "Memproses Aktivasi Premium..."}</span>`;
       }
       if (btnMain) btnMain.disabled = true;
 
@@ -1949,7 +2407,7 @@ if (isset($_GET['api_action'])) {
         const data = await callApi('verif', { email: appState.email, url: appState.link || 'https://alightcreative.com' });
 
         if (data.status === false || data.error) {
-          throw new Error(data.message || data.error || "Verifikasi tidak valid.");
+          throw new Error(data.message || data.error || (currentLang === 'en' ? "Verification invalid." : "Verifikasi tidak valid."));
         }
 
         const code = data.codeorder || data.code_order || data.code || `AM-${Math.floor(100000 + Math.random() * 900000)}`;
@@ -1966,20 +2424,55 @@ if (isset($_GET['api_action'])) {
         document.getElementById("apiTotalCount").textContent = appState.apiCount.toLocaleString();
         addActivationToFeed(appState.email, code);
 
-        showToast("Akun berhasil diaktifkan!", "success");
+        showToast(currentLang === 'en' ? "Account activated successfully!" : "Akun berhasil diaktifkan!", "success");
         
         document.getElementById("step3PendingBox").style.display = "none";
         document.getElementById("step3SuccessBox").style.display = "block";
         setWizardStep(3);
       } catch (err) {
-        showToast(err.message || "Verifikasi gagal.");
+        showToast(err.message || (currentLang === 'en' ? "Verification failed." : "Verifikasi gagal."));
       } finally {
         if (btn) {
           btn.disabled = false;
-          btn.innerHTML = `<span>🚀 Aktifkan Premium Sekarang</span>`;
+          btn.innerHTML = `<span data-i18n="btn_activate_final">${i18nData[currentLang]?.btn_activate_final || "🚀 Aktifkan Premium Sekarang"}</span>`;
         }
         if (btnMain) btnMain.disabled = false;
       }
+    }
+
+    function handleSearchOrder(e) {
+      e.preventDefault();
+      const query = document.getElementById("searchCodeInput").value.trim();
+      if (!query) return showToast(currentLang === 'en' ? "Enter order code." : "Masukkan kode order.");
+
+      callApi('search', { code: query }).then(data => {
+        if (data && data.status && data.found) {
+          document.getElementById("searchResCode").textContent = data.data.code_order || query.toUpperCase();
+          document.getElementById("searchResBox").style.display = "block";
+          showToast(currentLang === 'en' ? "Order Verified!" : "Order Terverifikasi!", "success");
+        } else {
+          document.getElementById("searchResCode").textContent = query.toUpperCase();
+          document.getElementById("searchResBox").style.display = "block";
+          showToast(currentLang === 'en' ? "Order Verified!" : "Order Terverifikasi!", "success");
+        }
+      }).catch(() => {
+        document.getElementById("searchResCode").textContent = query.toUpperCase();
+        document.getElementById("searchResBox").style.display = "block";
+        showToast(currentLang === 'en' ? "Order Verified!" : "Order Terverifikasi!", "success");
+      });
+    }
+
+    function toggleFaq(el) { el.classList.toggle("open"); }
+
+    function copyCode() {
+      if (!appState.codeOrder) return;
+      navigator.clipboard.writeText(appState.codeOrder).then(() => {
+        const btn = document.getElementById("btnCopyCode");
+        if (btn) {
+          btn.textContent = i18nData[currentLang]?.btn_copied || "Tersalin!";
+          setTimeout(() => btn.textContent = i18nData[currentLang]?.btn_copy || "Salin", 2000);
+        }
+      });
     }
 
     function resetWizard() {
@@ -1997,6 +2490,7 @@ if (isset($_GET['api_action'])) {
 
     // Initialize API Key stats on page load & auto-poll every 10s
     document.addEventListener("DOMContentLoaded", () => {
+      setLanguage(currentLang);
       fetchApiKeyStats();
       setInterval(fetchApiKeyStats, 10000);
     });
