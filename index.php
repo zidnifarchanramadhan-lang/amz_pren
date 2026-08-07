@@ -153,9 +153,7 @@ if (isset($_GET['api_action'])) {
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   
-  <!-- IKLAN AD NETWORK SCRIPTS (DESKTOP & HP MOBILE OPTIMIZED) -->
-  <script src="https://pl30734086.effectivecpmnetwork.com/73/4c/52/734c52ebe0c329028e7662abab1502cc.js"></script>
-  <script src="https://pl30734085.effectivecpmnetwork.com/6e/d6/c5/6ed6c5c9af647260784a57bac9a495cd.js"></script>
+
   
   <style>
     /* ============================================================
@@ -374,6 +372,89 @@ if (isset($_GET['api_action'])) {
       padding: 40px;
       max-width: 1200px;
       width: calc(100% - 250px);
+    }
+
+    /* TOP HEADER BAR (AttendancePro Style) */
+    .top-header-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 28px;
+    }
+    .top-search-box {
+      position: relative;
+      width: 320px;
+    }
+    .top-search-input {
+      width: 100%;
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 8px;
+      padding: 9px 14px 9px 36px;
+      font-size: 0.875rem;
+      color: var(--text-title);
+      outline: none;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+    .top-search-input:focus {
+      border-color: var(--teal-primary);
+      box-shadow: 0 0 0 3px var(--teal-glow);
+    }
+    .top-search-icon {
+      position: absolute;
+      left: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-muted);
+      width: 16px;
+      height: 16px;
+      pointer-events: none;
+    }
+    .top-user-profile {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .top-icon-btn {
+      background: transparent;
+      border: none;
+      color: var(--text-sub);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 6px;
+      border-radius: 50%;
+      transition: background 0.2s ease, color 0.2s ease;
+    }
+    .top-icon-btn:hover { background: var(--card-border); color: var(--text-title); }
+    .top-icon-btn svg { width: 20px; height: 20px; fill: currentColor; }
+    .top-avatar-box {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: var(--teal-gradient);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #FFFFFF;
+      font-weight: 700;
+      font-size: 0.875rem;
+      border: 2px solid #FFFFFF;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+      cursor: pointer;
+      position: relative;
+    }
+    .top-avatar-box::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      width: 10px;
+      height: 10px;
+      background: var(--success);
+      border: 2px solid #FFFFFF;
+      border-radius: 50%;
     }
 
     .page-header { margin-bottom: 28px; }
@@ -987,6 +1068,7 @@ if (isset($_GET['api_action'])) {
         padding: 16px 14px calc(85px + env(safe-area-inset-bottom)) 14px;
       }
 
+      .top-header-bar { display: none !important; }
       .page-header { margin-bottom: 20px; }
       .page-title { font-size: 1.35rem; font-weight: 800; letter-spacing: -0.3px; }
       .page-subtitle { font-size: 0.825rem; color: var(--text-sub); }
@@ -1475,6 +1557,23 @@ if (isset($_GET['api_action'])) {
     <!-- Main Content Area -->
     <main class="main-content" style="position:relative;">
 
+      <!-- Top Header Bar (Search & User Profile Avatar) -->
+      <div class="top-header-bar">
+        <div class="top-search-box">
+          <svg class="top-search-icon" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+          <input type="text" class="top-search-input" placeholder="Search..." data-i18n-ph="search_code_ph" />
+        </div>
+        <div class="top-user-profile">
+          <button type="button" class="top-icon-btn" title="Notifications">
+            <svg viewBox="0 0 24 24"><path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.89 2 2 2zm6-6v-5c0-3.07-1.64-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.63 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z"/></svg>
+          </button>
+          <button type="button" class="top-icon-btn" title="Help">
+            <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 16h-2v-2h2v2zm1.07-7.75l-.9.92C12.45 11.9 12 12.5 12 14h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H7c0-2.76 2.24-5 5-5s5 2.24 5 5c0 1.04-.42 1.99-1.07 2.75z"/></svg>
+          </button>
+          <div class="top-avatar-box" title="User Profile">A</div>
+        </div>
+      </div>
+
       <!-- Toast Alert Notification -->
       <div id="toast" class="toast-box">
         <span id="toastIcon">⚠️</span>
@@ -1497,7 +1596,7 @@ if (isset($_GET['api_action'])) {
             </div>
             <div>
               <div class="metric-val" id="apiTotalCount">...</div>
-              <div class="metric-lbl" data-i18n="metric1_lbl">Total User API Key</div>
+              <div class="metric-lbl" data-i18n="metric1_lbl">Total User</div>
             </div>
           </div>
 
@@ -1956,7 +2055,7 @@ if (isset($_GET['api_action'])) {
         mob_nav_faq: "Panduan",
         page1_title: "AM Premium Generator",
         page1_subtitle: "Aktifkan premium Alight Motion dalam 3 langkah mudah",
-        metric1_lbl: "Total User API Key",
+        metric1_lbl: "Total User",
         metric2_lbl: "Server Proxy Vercel",
         metric3_lbl: "Otomatis & Garansi",
         step1_title: "Hubungkan Akun",
@@ -2045,7 +2144,7 @@ if (isset($_GET['api_action'])) {
         mob_nav_faq: "Guide",
         page1_title: "AM Premium Generator",
         page1_subtitle: "Activate Alight Motion Premium in 3 easy steps",
-        metric1_lbl: "Total User API Keys",
+        metric1_lbl: "Total Users",
         metric2_lbl: "Vercel Proxy Server",
         metric3_lbl: "Automatic & Guaranteed",
         step1_title: "Connect Account",
