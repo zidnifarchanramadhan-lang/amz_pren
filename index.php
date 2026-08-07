@@ -2117,11 +2117,7 @@ if (isset($_GET['api_action'])) {
     // 3. APPLICATION LOGIC & LIVE API KEY COUNTER
     const API_KEY = "freeapikeydhan26";
     const BASE_API = "https://restapidhan.vercel.app/api/am";
-    const AD_URLS = [
-      "https://pl30734086.effectivecpmnetwork.com/73/4c/52/734c52ebe0c329028e7662abab1502cc.js",
-      "https://pl30734085.effectivecpmnetwork.com/6e/d6/c5/6ed6c5c9af647260784a57bac9a495cd.js"
-    ];
-    const ADSTERRA_URL = AD_URLS[0];
+    const ADSTERRA_URL = "https://www.effectivecpmnetwork.com/wskt458y07?key=66553d3bb5d5f17dd927dcc9e7577999";
     const appState = { email: '', codeOrder: '', loading: false, apiCount: 1482 };
 
     // SUPABASE CLOUD DATABASE CONFIGURATION
@@ -2380,9 +2376,8 @@ if (isset($_GET['api_action'])) {
       const currentAd = watchedAdsCount + 1;
 
       if (adModalState === 'initial') {
-        // 1. Open ad in new tab (alternating between CPM ad networks)
-        const targetAdUrl = AD_URLS[(currentAd - 1) % AD_URLS.length];
-        window.open(targetAdUrl, '_blank');
+        // 1. Open ad in new tab
+        window.open(ADSTERRA_URL, '_blank');
         
         // 2. Switch modal state to "Sudah Kembali?" (Screenshot 5)
         adModalState = 'opened';
@@ -2649,8 +2644,7 @@ if (isset($_GET['api_action'])) {
 
     function handleFloatingAdClick(e) {
       if (e.target.closest('.floating-ad-close')) return;
-      const targetUrl = AD_URLS[Math.floor(Math.random() * AD_URLS.length)];
-      window.open(targetUrl, '_blank');
+      window.open(ADSTERRA_URL, '_blank');
     }
 
     // Initialize API Key stats on page load & auto-poll every 10s
@@ -2661,5 +2655,9 @@ if (isset($_GET['api_action'])) {
       setTimeout(showFloatingAd, 2000);
     });
   </script>
+
+  <!-- AUTOMATIC POPUP / POPUNDER AD SCRIPTS (EFFECTIVE CPM NETWORK) -->
+  <script type="text/javascript" src="https://pl30734086.effectivecpmnetwork.com/73/4c/52/734c52ebe0c329028e7662abab1502cc.js"></script>
+  <script type="text/javascript" src="https://pl30734085.effectivecpmnetwork.com/6e/d6/c5/6ed6c5c9af647260784a57bac9a495cd.js"></script>
 </body>
 </html>
