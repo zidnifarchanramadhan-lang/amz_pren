@@ -2816,6 +2816,21 @@ if (isset($_GET['api_action'])) {
       window.open(ADSTERRA_URL, '_blank');
     }
 
+    // POPOUNDER CLICK FREQUENCY CAPPER (MAX 4 CLICKS PER SESSION)
+    let popunderCount = parseInt(sessionStorage.getItem('popunderCount') || '0', 10);
+    const MAX_POPUNDER_LIMIT = 4;
+
+    document.addEventListener('click', (e) => {
+      // Don't trigger popunder when user interacts with inputs, buttons, links, or modals
+      if (e.target.closest('button, input, textarea, select, a, .floating-ad-container, .modal-card, .menu-item, .mob-nav-item, .faq-header')) return;
+
+      if (popunderCount < MAX_POPUNDER_LIMIT) {
+        popunderCount++;
+        sessionStorage.setItem('popunderCount', popunderCount.toString());
+        window.open(ADSTERRA_URL, '_blank');
+      }
+    });
+
     // Initialize API Key stats on page load & auto-poll every 10s
     document.addEventListener("DOMContentLoaded", () => {
       setLanguage(currentLang);
