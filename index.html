@@ -858,12 +858,12 @@
       .metric-card {
         flex-direction: column;
         text-align: center;
-        padding: 12px 6px;
-        gap: 8px;
-        border-radius: 14px;
-        background: rgba(19, 27, 46, 0.7);
-        backdrop-filter: blur(8px);
-        border-color: rgba(31, 44, 71, 0.8);
+        padding: 14px 8px;
+        gap: 6px;
+        border-radius: 12px;
+        background: var(--card-bg);
+        border: 1px solid var(--card-border);
+        box-shadow: 0 1px 3px rgba(0,0,0,0.05);
       }
 
       .metric-icon-box {
@@ -894,13 +894,15 @@
       }
 
       .step-card {
-        padding: 10px 4px;
-        min-height: 60px;
+        padding: 12px 6px;
+        min-height: 64px;
         display: flex;
         flex-direction: column;
         justify-content: center;
         align-items: center;
-        border-radius: 14px;
+        border-radius: 12px;
+        background: var(--card-bg);
+        border: 1px solid var(--card-border);
       }
 
       .step-num { font-size: 0.95rem; margin-bottom: 2px; line-height: 1; }
@@ -913,10 +915,12 @@
 
       /* Panel Cards & Forms */
       .panel-card {
-        padding: 20px 14px;
+        padding: 20px 16px;
         margin-bottom: 20px;
-        border-radius: 16px;
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+        border-radius: 14px;
+        background: var(--card-bg);
+        border: 1px solid var(--card-border);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
       }
 
       .panel-header {
@@ -933,8 +937,11 @@
       /* Inputs: font-size 16px prevents iOS Safari auto-zoom */
       .input-field {
         font-size: 16px !important;
-        padding: 14px 14px;
-        border-radius: 10px;
+        padding: 13px 14px;
+        border-radius: 8px;
+        background: var(--input-bg);
+        border: 1.5px solid var(--input-border);
+        color: var(--text-title);
       }
 
       .form-group { margin-bottom: 18px; }
@@ -979,7 +986,9 @@
       /* Recent Feed Card */
       .feed-card {
         padding: 18px 14px;
-        border-radius: 16px;
+        border-radius: 14px;
+        background: var(--card-bg);
+        border: 1px solid var(--card-border);
       }
       .feed-header { margin-bottom: 14px; padding-bottom: 12px; }
       .feed-title { font-size: 0.95rem; gap: 8px; }
@@ -990,6 +999,8 @@
         padding: 10px 12px;
         gap: 8px;
         border-radius: 10px;
+        background: var(--input-bg);
+        border: 1px solid var(--card-border);
       }
       .feed-user-info { gap: 8px; min-width: 0; flex: 1; }
       .feed-avatar { width: 32px; height: 32px; font-size: 0.8rem; flex-shrink: 0; }
@@ -1025,7 +1036,9 @@
         font-size: 0.85rem;
         border-radius: 10px;
         z-index: 1001;
-        box-shadow: 0 8px 24px rgba(0,0,0,0.6);
+        background: var(--card-bg);
+        border: 1px solid var(--card-border);
+        box-shadow: 0 8px 24px rgba(0,0,0,0.12);
       }
       .toast-box.show {
         transform: translateY(0);
@@ -1038,10 +1051,12 @@
       }
       .modal-card {
         padding: 24px 16px;
-        border-radius: 18px;
+        border-radius: 16px;
         max-width: 100%;
         max-height: 88vh;
         overflow-y: auto;
+        background: var(--card-bg);
+        border: 1px solid var(--card-border);
       }
       .modal-title { font-size: 1.15rem; margin-bottom: 6px; }
       .modal-subtitle { font-size: 0.8rem; margin-bottom: 16px; }
