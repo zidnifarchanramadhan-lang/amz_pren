@@ -1051,19 +1051,6 @@ if (isset($_GET['api_action'])) {
     <!-- Main Content Area -->
     <main class="main-content" style="position:relative;">
 
-      <!-- Top Right Sponsor Ad Widget (Adsterra) -->
-      <div class="sponsor-ad-widget" id="sponsorWidget">
-        <div class="sponsor-ad-badge">1</div>
-        <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=100&auto=format&fit=crop&q=80" alt="Adsterra Ad" />
-        <div>
-          <div class="sponsor-ad-title">The Best Times to Quit Your Job</div>
-          <div style="display:flex; gap:10px; align-items:center; margin-top:2px;">
-            <span class="sponsor-ad-sub" onclick="window.open(ADSTERRA_URL,'_blank')">Learn More</span>
-            <span style="font-size:0.75rem; color:#64748B; cursor:pointer;" onclick="document.getElementById('sponsorWidget').style.display='none'">Hide</span>
-          </div>
-        </div>
-      </div>
-
       <!-- Toast Alert Notification -->
       <div id="toast" class="toast-box">
         <span id="toastIcon">⚠️</span>
