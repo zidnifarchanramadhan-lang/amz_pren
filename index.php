@@ -548,6 +548,193 @@ if (isset($_GET['api_action'])) {
 
     .btn-blue:disabled, .btn-secondary:disabled { opacity: 0.6; cursor: not-allowed; transform: none !important; }
 
+    /* ALERT GREEN BANNER */
+    .alert-banner-green {
+      background: rgba(16, 185, 129, 0.1);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      color: #34D399;
+      border-radius: var(--radius-card);
+      padding: 14px 20px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .icon-box-purple {
+      background: rgba(139, 92, 246, 0.12) !important;
+      border-color: rgba(139, 92, 246, 0.3) !important;
+      color: #A78BFA !important;
+    }
+
+    /* TOP RIGHT SPONSOR AD WIDGET */
+    .sponsor-ad-widget {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background: rgba(15, 23, 42, 0.95);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 12px;
+      padding: 10px 14px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+      z-index: 10;
+    }
+    .sponsor-ad-widget img {
+      width: 44px;
+      height: 44px;
+      border-radius: 8px;
+      object-fit: cover;
+    }
+    .sponsor-ad-title { font-size: 0.85rem; font-weight: 700; color: #FFF; margin-bottom: 2px; }
+    .sponsor-ad-sub { font-size: 0.75rem; color: var(--blue-primary); cursor: pointer; text-decoration: underline; }
+    .sponsor-ad-badge {
+      position: absolute;
+      top: -6px; right: -6px;
+      background: #EF4444; color: #FFF;
+      font-size: 0.65rem; font-weight: 800;
+      width: 18px; height: 18px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+    }
+
+    /* 5 SUB-AD STATUS CARDS GRID */
+    .ad-sub-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 12px;
+      margin: 24px 0;
+    }
+    .ad-sub-box {
+      background: var(--input-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      padding: 16px 8px;
+      text-align: center;
+      transition: all 0.25s ease;
+    }
+    .ad-sub-box.active {
+      background: rgba(59, 130, 246, 0.1);
+      border-color: var(--blue-primary);
+      box-shadow: 0 0 15px var(--blue-glow);
+    }
+    .ad-sub-box.completed {
+      background: rgba(16, 185, 129, 0.1);
+      border-color: rgba(16, 185, 129, 0.4);
+    }
+    .ad-sub-num {
+      font-size: 1.1rem;
+      font-weight: 800;
+      color: var(--text-title);
+      margin-bottom: 4px;
+    }
+    .ad-sub-lbl {
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--text-muted);
+    }
+    .ad-sub-box.active .ad-sub-lbl { color: var(--blue-primary); font-weight: 700; }
+    .ad-sub-box.completed .ad-sub-lbl { color: #34D399; font-weight: 700; }
+
+    /* AD MODAL DIALOG */
+    .modal-overlay {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0, 0, 0, 0.8);
+      backdrop-filter: blur(8px);
+      z-index: 99999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+    .modal-overlay.show {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .modal-card {
+      background: #111827;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 20px;
+      width: 100%;
+      max-width: 440px;
+      padding: 32px 24px;
+      text-align: center;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.9);
+      transform: translateY(20px);
+      transition: transform 0.3s ease;
+    }
+    .modal-overlay.show .modal-card {
+      transform: translateY(0);
+    }
+    .modal-warn-icon {
+      width: 56px; height: 56px;
+      border-radius: 50%;
+      background: rgba(245, 158, 11, 0.12);
+      border: 2px solid #F59E0B;
+      color: #F59E0B;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.5rem; font-weight: 900;
+      margin: 0 auto 16px auto;
+      box-shadow: 0 0 20px rgba(245, 158, 11, 0.2);
+    }
+    .modal-check-icon {
+      width: 56px; height: 56px;
+      border-radius: 50%;
+      background: rgba(59, 130, 246, 0.12);
+      border: 2px solid #3B82F6;
+      color: #3B82F6;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.5rem; font-weight: 900;
+      margin: 0 auto 16px auto;
+      box-shadow: 0 0 20px rgba(59, 130, 246, 0.2);
+    }
+    .modal-title { font-size: 1.3rem; font-weight: 800; color: #FFF; margin-bottom: 8px; }
+    .modal-subtitle { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 20px; }
+    .modal-instruction-box {
+      background: rgba(30, 41, 59, 0.8);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 14px;
+      padding: 18px;
+      text-align: left;
+      margin-bottom: 16px;
+    }
+    .modal-instruction-header { font-size: 0.875rem; font-weight: 800; color: #FFF; margin-bottom: 10px; }
+    .modal-instruction-list { font-size: 0.825rem; color: #94A3B8; line-height: 1.7; padding-left: 0; list-style: none; margin: 0; }
+    .modal-subtext { font-size: 0.8rem; color: var(--text-muted); font-family: monospace; margin-bottom: 24px; }
+    .modal-success-icon {
+      width: 56px; height: 56px;
+      border-radius: 50%;
+      background: rgba(16, 185, 129, 0.15);
+      border: 2px solid #10B981;
+      color: #10B981;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.5rem; font-weight: 900;
+      margin: 0 auto 16px auto;
+      box-shadow: 0 0 20px rgba(16, 185, 129, 0.3);
+    }
+    .modal-progress-bar-container {
+      width: 100%;
+      height: 6px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 4px;
+      overflow: hidden;
+      margin-top: 20px;
+    }
+    .modal-progress-bar-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #A855F7 0%, #3B82F6 100%);
+      border-radius: 4px;
+      transition: width 0.3s ease;
+    }
+    .modal-progress-footer { font-size: 0.775rem; color: var(--text-muted); font-weight: 700; margin-top: 8px; font-family: monospace; }
+
     .spinner {
       width: 18px; height: 18px;
       border: 2px solid rgba(255, 255, 255, 0.3);
@@ -838,19 +1025,29 @@ if (isset($_GET['api_action'])) {
         </div>
 
         <nav class="sidebar-menu">
+          <button class="menu-item" id="sNavDash" onclick="switchTab('generator')">
+            <svg viewBox="0 0 24 24"><path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8v-10h-8v10zm0-18v6h8V3h-8z"/></svg>
+            <span>Dashboard</span>
+          </button>
+
+          <button class="menu-item" id="sNavCheck" onclick="switchTab('check')">
+            <svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+            <span>Server Status</span>
+          </button>
+
           <button class="menu-item active" id="sNavGen" onclick="switchTab('generator')">
             <svg viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
             <span>AM Generator</span>
           </button>
 
-          <button class="menu-item" id="sNavCheck" onclick="switchTab('check')">
-            <svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
-            <span>Server Status / Cek Order</span>
+          <button class="menu-item" id="sNavGen2" onclick="switchTab('generator')">
+            <svg viewBox="0 0 24 24"><path d="M12 2l2.4 7.4H22l-6 4.6 2.3 7.2-6.3-4.6-6.3 4.6 2.3-7.2-6-4.6h7.6z"/></svg>
+            <span>AM Generator v2</span>
           </button>
 
           <button class="menu-item" id="sNavFaq" onclick="switchTab('faq')">
-            <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 16h-2v-2h2v2zm1.07-7.75l-.9.92C12.45 11.9 12 12.5 12 14h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H7c0-2.76 2.24-5 5-5s5 2.24 5 5c0 1.04-.42 1.99-1.07 2.75z"/></svg>
-            <span>Panduan FAQ</span>
+            <svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+            <span>Temp Mail</span>
           </button>
         </nav>
       </div>
@@ -862,7 +1059,20 @@ if (isset($_GET['api_action'])) {
     </aside>
 
     <!-- Main Content Area -->
-    <main class="main-content">
+    <main class="main-content" style="position:relative;">
+
+      <!-- Top Right Sponsor Ad Widget (Adsterra) -->
+      <div class="sponsor-ad-widget" id="sponsorWidget">
+        <div class="sponsor-ad-badge">1</div>
+        <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=100&auto=format&fit=crop&q=80" alt="Adsterra Ad" />
+        <div>
+          <div class="sponsor-ad-title">The Best Times to Quit Your Job</div>
+          <div style="display:flex; gap:10px; align-items:center; margin-top:2px;">
+            <span class="sponsor-ad-sub" onclick="window.open(ADSTERRA_URL,'_blank')">Learn More</span>
+            <span style="font-size:0.75rem; color:#64748B; cursor:pointer;" onclick="document.getElementById('sponsorWidget').style.display='none'">Hide</span>
+          </div>
+        </div>
+      </div>
 
       <!-- Toast Alert Notification -->
       <div id="toast" class="toast-box">
@@ -914,24 +1124,24 @@ if (isset($_GET['api_action'])) {
         <!-- Horizontal 3-Step Progress Cards Header -->
         <div class="steps-grid">
           <div id="stepCard1" class="step-card active">
-            <div class="step-num">1</div>
-            <div class="step-text">Hubungkan Akun</div>
+            <div class="step-num" id="stepNum1">1</div>
+            <div class="step-text" id="stepTxt1">Hubungkan Akun</div>
           </div>
           <div id="stepCard2" class="step-card">
-            <div class="step-num">2</div>
-            <div class="step-text">Tempel Link Email</div>
+            <div class="step-num" id="stepNum2">2</div>
+            <div class="step-text" id="stepTxt2">Tonton 5 Iklan</div>
           </div>
           <div id="stepCard3" class="step-card">
-            <div class="step-num">3</div>
-            <div class="step-text">Premium Aktif!</div>
+            <div class="step-num" id="stepNum3">3</div>
+            <div class="step-text" id="stepTxt3">Premium Aktif!</div>
           </div>
         </div>
 
         <!-- Panel Form Container Card -->
-        <div class="panel-card">
+        <div class="panel-card" style="position:relative;">
 
-          <!-- STEP 1 FORM -->
-          <div id="step1View">
+          <!-- STEP 1A FORM: ENTER EMAIL -->
+          <div id="step1AView">
             <div class="panel-header">
               <div class="panel-icon-box">
                 <svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
@@ -961,79 +1171,196 @@ if (isset($_GET['api_action'])) {
             </form>
           </div>
 
-          <!-- STEP 2 FORM -->
-          <div id="step2View" style="display:none;">
+          <!-- STEP 1B FORM: VERIFY MAGIC LINK -->
+          <div id="step1BView" style="display:none;">
+            <div class="alert-banner-green">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+              <span>Magic link terkirim! Cek email Anda (termasuk spam).</span>
+            </div>
+
             <div class="panel-header">
-              <div class="panel-icon-box">
-                <svg viewBox="0 0 24 24"><path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"/></svg>
+              <div class="panel-icon-box icon-box-purple">
+                <svg viewBox="0 0 24 24"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/></svg>
               </div>
               <div>
-                <div class="panel-title">Langkah 2: Tempelkan Link Verifikasi Email</div>
-                <div class="panel-desc">Buka email dari Alight Creative, salin alamat tombol verifikasi lalu tempelkan di bawah</div>
+                <div class="panel-title">Verifikasi Magic Link</div>
+                <div class="panel-desc">Cek email Anda (termasuk folder spam), copy link yang dikirim, paste di bawah</div>
               </div>
             </div>
 
             <form onsubmit="handleVerifyLink(event)">
               <div class="form-group">
-                <label for="linkInput" class="form-label">Link Verifikasi (URL)</label>
+                <label for="linkInput" class="form-label" style="font-family:monospace; font-size:0.85rem; letter-spacing:0;">Magic Link dari Email</label>
                 <div class="input-wrapper">
-                  <input type="url" id="linkInput" class="input-field" placeholder="https://alightcreative.com/authed?..." required autocomplete="off" />
+                  <input type="url" id="linkInput" class="input-field" placeholder="https://alightcreative.com?oobCode=..." required autocomplete="off" />
                 </div>
               </div>
 
               <div class="btn-row">
-                <button type="button" class="btn-secondary" onclick="setWizardStep(1)">
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
+                <button type="button" class="btn-secondary" onclick="setWizardStep('1A')">
                   <span>Kembali</span>
                 </button>
-                <button type="submit" id="btnStep2" class="btn-blue">
-                  <span>Proses Aktivasi Premium 🚀</span>
+                <button type="submit" id="btnStep1B" class="btn-blue">
+                  <span>Verifikasi & Tautkan</span>
                 </button>
               </div>
             </form>
           </div>
 
-          <!-- STEP 3 SUCCESS -->
-          <div id="step3View" style="display:none;">
-            <div class="success-box">
-              <div class="success-header">
-                <div class="success-badge-icon">
-                  <svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
-                </div>
-                <div>
-                  <h3 style="color:#34D399; font-size:1.1rem; font-weight:800;">Langkah 3: Akun Berhasil Diaktifkan!</h3>
-                  <p style="font-size:0.85rem; color:var(--text-sub);">Status Lisensi Alight Motion Anda sekarang Aktif Premium.</p>
-                </div>
-              </div>
+          <!-- STEP 2 FORM: WATCH 5 ADS -->
+          <div id="step2View" style="display:none;">
+            <div class="alert-banner-green">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+              <span>Akun Firebase berhasil ditautkan! Sekarang selesaikan 5 iklan.</span>
+            </div>
 
-              <div class="data-row">
-                <span class="data-key">Status Lisensi</span>
-                <span style="color:#34D399; font-weight:800; background:rgba(16,185,129,0.15); padding:3px 10px; border-radius:6px;">ACTIVE PREMIUM</span>
+            <div class="panel-header">
+              <div class="panel-icon-box">
+                <svg viewBox="0 0 24 24"><path d="M21 3H3c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h5v2h8v-2h5c1.1 0 1.99-.9 1.99-2L23 5c0-1.1-.9-2-2-2zm0 14H3V5h18v12z"/></svg>
               </div>
-              <div class="data-row">
-                <span class="data-key">Email Terdaftar</span>
-                <span id="resEmail" class="data-val">-</span>
-              </div>
-              <div class="data-row">
-                <span class="data-key">Kode Order</span>
-                <div>
-                  <span id="resCode" class="code-order-badge">AM-000000</span>
-                  <button type="button" id="btnCopyCode" onclick="copyCode()" style="background:none; border:none; color:var(--blue-primary); cursor:pointer; font-weight:700; margin-left:8px;">Salin</button>
-                </div>
+              <div>
+                <div class="panel-title">Langkah 2: Selesaikan 5 Iklan</div>
+                <div class="panel-desc">Tonton 5 iklan untuk mengaktifkan premium</div>
               </div>
             </div>
 
-            <div class="btn-row">
-              <button type="button" class="btn-secondary" onclick="resetWizard()">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
-                <span>Kembali</span>
+            <!-- 5 SUB-AD STATUS CARDS -->
+            <div class="ad-sub-grid">
+              <div class="ad-sub-box active" id="subAdBox1">
+                <div class="ad-sub-num" id="subAdNum1">1</div>
+                <div class="ad-sub-lbl" id="subAdLbl1">Next</div>
+              </div>
+              <div class="ad-sub-box" id="subAdBox2">
+                <div class="ad-sub-num" id="subAdNum2">2</div>
+                <div class="ad-sub-lbl" id="subAdLbl2">Locked</div>
+              </div>
+              <div class="ad-sub-box" id="subAdBox3">
+                <div class="ad-sub-num" id="subAdNum3">3</div>
+                <div class="ad-sub-lbl" id="subAdLbl3">Locked</div>
+              </div>
+              <div class="ad-sub-box" id="subAdBox4">
+                <div class="ad-sub-num" id="subAdNum4">4</div>
+                <div class="ad-sub-lbl" id="subAdLbl4">Locked</div>
+              </div>
+              <div class="ad-sub-box" id="subAdBox5">
+                <div class="ad-sub-num" id="subAdNum5">5</div>
+                <div class="ad-sub-lbl" id="subAdLbl5">Locked</div>
+              </div>
+            </div>
+
+            <button type="button" id="btnMainAdTask" class="btn-blue" style="width:100%; padding:18px;" onclick="triggerAdModal()">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M21 3H3c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h5v2h8v-2h5c1.1 0 1.99-.9 1.99-2L23 5c0-1.1-.9-2-2-2zm0 14H3V5h18v12z"/></svg>
+              <span id="btnMainAdText">Tonton Iklan #1</span>
+            </button>
+          </div>
+
+          <!-- STEP 3 FORM & RESULT -->
+          <div id="step3View" style="display:none;">
+            <!-- Pre-activation Box (Before clicking activate button) -->
+            <div id="step3PendingBox">
+              <div class="alert-banner-green">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+                <span>5/5 Iklan selesai! Siap untuk mengaktifkan lisensi Premium.</span>
+              </div>
+
+              <div class="panel-header">
+                <div class="panel-icon-box" style="background:rgba(16, 185, 129, 0.12); border-color:rgba(16, 185, 129, 0.3); color:#34D399;">
+                  <svg viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-2 16l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z"/></svg>
+                </div>
+                <div>
+                  <div class="panel-title">Langkah 3: Aktifkan Premium</div>
+                  <div class="panel-desc">Klik tombol di bawah untuk mengaktifkan akun Alight Motion Anda secara otomatis</div>
+                </div>
+              </div>
+
+              <div style="background:var(--input-bg); border:1px solid var(--card-border); border-radius:12px; padding:16px; margin-bottom:24px;">
+                <div class="data-row">
+                  <span class="data-key">Email Terhubung</span>
+                  <span id="step3PreEmail" class="data-val" style="color:var(--text-title); font-weight:700;">-</span>
+                </div>
+                <div class="data-row">
+                  <span class="data-key">Status Syarat</span>
+                  <span style="color:#34D399; font-weight:800;">✓ 5/5 Iklan Selesai</span>
+                </div>
+              </div>
+
+              <button type="button" id="btnActivateFinal" class="btn-blue" style="width:100%; padding:18px; font-weight:800; background:linear-gradient(135deg, #10B981, #059669); box-shadow:0 6px 20px rgba(16,185,129,0.3);" onclick="processFinalActivation()">
+                <span>🚀 Aktifkan Premium Sekarang</span>
               </button>
-              <button type="button" class="btn-blue" onclick="resetWizard()">
-                <span>Aktivasi Akun Lain</span>
-              </button>
+            </div>
+
+            <!-- Post-activation Result Box (Shown after clicking activate button) -->
+            <div id="step3SuccessBox" style="display:none;">
+              <div class="success-box">
+                <div class="success-header">
+                  <div class="success-badge-icon">
+                    <svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+                  </div>
+                  <div>
+                    <h3 style="color:#34D399; font-size:1.1rem; font-weight:800;">Akun Berhasil Diaktifkan! 🎉</h3>
+                    <p style="font-size:0.85rem; color:var(--text-sub);">Status Lisensi Alight Motion Anda sekarang Aktif Premium.</p>
+                  </div>
+                </div>
+
+                <div class="data-row">
+                  <span class="data-key">Status Lisensi</span>
+                  <span style="color:#34D399; font-weight:800; background:rgba(16,185,129,0.15); padding:3px 10px; border-radius:6px;">ACTIVE PREMIUM</span>
+                </div>
+                <div class="data-row">
+                  <span class="data-key">Email Terdaftar</span>
+                  <span id="resEmail" class="data-val">-</span>
+                </div>
+                <div class="data-row">
+                  <span class="data-key">Kode Order</span>
+                  <div>
+                    <span id="resCode" class="code-order-badge">AM-000000</span>
+                    <button type="button" id="btnCopyCode" onclick="copyCode()" style="background:none; border:none; color:var(--blue-primary); cursor:pointer; font-weight:700; margin-left:8px;">Salin</button>
+                  </div>
+                </div>
+              </div>
+
+              <div class="btn-row">
+                <button type="button" class="btn-secondary" onclick="resetWizard()">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
+                  <span>Kembali</span>
+                </button>
+                <button type="button" class="btn-blue" onclick="resetWizard()">
+                  <span>Aktivasi Akun Lain</span>
+                </button>
+              </div>
             </div>
           </div>
 
+        </div>
+
+        <!-- AD WATCHING MODAL DIALOG (Screenshots 4 & 5) -->
+        <div id="adModal" class="modal-overlay">
+          <div class="modal-card">
+            <div id="adModalIcon" class="modal-warn-icon">!</div>
+            
+            <div class="modal-title" id="adModalTitle">Iklan 1 / 5</div>
+            <div class="modal-subtitle" id="adModalSubtitle" style="display:none;">Klik tombol di bawah setelah kamu kembali dari halaman mitra.</div>
+            
+            <div id="adModalInstructions" class="modal-instruction-box">
+              <div class="modal-instruction-header">Kamu akan diarahkan ke halaman mitra. <span style="color:#F59E0B;">Jangan panik!</span></div>
+              <ul class="modal-instruction-list">
+                <li>• Setelah halaman mitra terbuka, <strong>tutup tab</strong> tersebut</li>
+                <li>• Kembali ke halaman ini</li>
+                <li>• Klik <strong>"Ya, Saya Sudah Kembali"</strong></li>
+              </ul>
+            </div>
+
+            <div id="adModalSubtext" class="modal-subtext">Iklan ini membantu kami tetap gratis. Terima kasih! 🙏</div>
+
+            <button type="button" id="btnModalAction" class="btn-blue" style="width:100%; padding:16px; font-weight:800;" onclick="handleAdModalButtonClick()">
+              <span>Buka Iklan</span>
+            </button>
+
+            <div class="modal-progress-bar-container">
+              <div class="modal-progress-bar-fill" id="adModalBarFill" style="width: 0%;"></div>
+            </div>
+            <div class="modal-progress-footer" id="adModalProgress">Progress: 0/5</div>
+          </div>
         </div>
 
         <!-- RECENT ACTIVATION LIVE FEED CARD -->
@@ -1226,6 +1553,7 @@ if (isset($_GET['api_action'])) {
     // 3. APPLICATION LOGIC & LIVE API KEY COUNTER
     const API_KEY = "freeapikeydhan26";
     const BASE_API = "https://restapidhan.vercel.app/api/am";
+    const ADSTERRA_URL = "https://www.effectivecpmnetwork.com/wskt458y07?key=66553d3bb5d5f17dd927dcc9e7577999";
     const appState = { email: '', codeOrder: '', loading: false, apiCount: 1482 };
 
     // SUPABASE CLOUD DATABASE CONFIGURATION
@@ -1406,17 +1734,170 @@ if (isset($_GET['api_action'])) {
       document.getElementById("mNavFaq").classList.toggle("active", tabName === 'faq');
     }
 
+    let watchedAdsCount = 0;
+    let adModalState = 'initial'; // 'initial' (Buka Iklan) or 'opened' (Ya, Saya Sudah Kembali)
+
     function setWizardStep(stepNum) {
-      document.getElementById("step1View").style.display = stepNum === 1 ? "block" : "none";
+      document.getElementById("step1AView").style.display = (stepNum === 1 || stepNum === '1A') ? "block" : "none";
+      document.getElementById("step1BView").style.display = stepNum === '1B' ? "block" : "none";
       document.getElementById("step2View").style.display = stepNum === 2 ? "block" : "none";
       document.getElementById("step3View").style.display = stepNum === 3 ? "block" : "none";
 
-      const cards = [document.getElementById("stepCard1"), document.getElementById("stepCard2"), document.getElementById("stepCard3")];
-      cards.forEach((c, idx) => {
-        c.classList.remove("active", "completed");
-        if (idx + 1 === stepNum) c.classList.add("active");
-        else if (idx + 1 < stepNum) c.classList.add("completed");
-      });
+      const card1 = document.getElementById("stepCard1");
+      const card2 = document.getElementById("stepCard2");
+      const card3 = document.getElementById("stepCard3");
+
+      const num1 = document.getElementById("stepNum1");
+      const num2 = document.getElementById("stepNum2");
+      const num3 = document.getElementById("stepNum3");
+
+      card1.className = "step-card";
+      card2.className = "step-card";
+      card3.className = "step-card";
+
+      if (stepNum === 1 || stepNum === '1A' || stepNum === '1B') {
+        card1.classList.add("active");
+        num1.textContent = "1";
+        num2.textContent = "2";
+        num3.textContent = "3";
+      } else if (stepNum === 2) {
+        card1.classList.add("completed");
+        num1.textContent = "✓";
+        card2.classList.add("active");
+        num2.textContent = "2";
+        num3.textContent = "3";
+      } else if (stepNum === 3) {
+        card1.classList.add("completed");
+        num1.textContent = "✓";
+        card2.classList.add("completed");
+        num2.textContent = "✓";
+        card3.classList.add("active");
+        num3.textContent = "3";
+
+        const emailInp = appState.email || document.getElementById("emailInput").value.trim();
+        document.getElementById("step3PreEmail").textContent = emailInp || '-';
+      }
+    }
+
+    function triggerAdModal() {
+      if (watchedAdsCount >= 5) {
+        showAdCompletedModal();
+        return;
+      }
+      adModalState = 'initial';
+      const currentAd = watchedAdsCount + 1;
+      
+      const icon = document.getElementById("adModalIcon");
+      icon.className = "modal-warn-icon";
+      icon.textContent = "!";
+      
+      document.getElementById("adModalTitle").textContent = `Iklan ${currentAd} / 5`;
+      document.getElementById("adModalSubtitle").style.display = "none";
+      document.getElementById("adModalInstructions").style.display = "block";
+      document.getElementById("adModalSubtext").style.display = "block";
+
+      const percent = Math.round((watchedAdsCount / 5) * 100);
+      document.getElementById("adModalBarFill").style.width = `${percent}%`;
+      document.getElementById("adModalProgress").textContent = `Progress: ${watchedAdsCount}/5`;
+
+      const btn = document.getElementById("btnModalAction");
+      btn.innerHTML = `<span>Buka Iklan</span>`;
+      btn.className = "btn-blue";
+
+      document.getElementById("adModal").classList.add("show");
+    }
+
+    function handleAdModalButtonClick() {
+      const btn = document.getElementById("btnModalAction");
+      const currentAd = watchedAdsCount + 1;
+
+      if (adModalState === 'initial') {
+        // 1. Open ad in new tab
+        window.open(ADSTERRA_URL, '_blank');
+        
+        // 2. Switch modal state to "Sudah Kembali?" (Screenshot 5)
+        adModalState = 'opened';
+        
+        const icon = document.getElementById("adModalIcon");
+        icon.className = "modal-check-icon";
+        icon.textContent = "✓";
+
+        document.getElementById("adModalTitle").textContent = "Sudah Kembali?";
+        document.getElementById("adModalSubtitle").innerHTML = `<div style="color:var(--text-sub); font-size:0.85rem; margin-bottom:4px;">Iklan ${currentAd} / 5</div><div style="font-size:0.825rem; color:var(--text-muted);">Klik tombol di bawah setelah kamu kembali dari halaman mitra.</div>`;
+        document.getElementById("adModalSubtitle").style.display = "block";
+        document.getElementById("adModalInstructions").style.display = "none";
+        document.getElementById("adModalSubtext").style.display = "none";
+
+        btn.innerHTML = `<span>Ya, Saya Sudah Kembali</span>`;
+      } else if (adModalState === 'opened') {
+        // 3. User clicked "Ya, Saya Sudah Kembali"
+        watchedAdsCount++;
+        updateSubAdBoxes();
+
+        if (watchedAdsCount >= 5) {
+          // Switch to Screenshot 6 "Semua Iklan Selesai! 🎉" State inside modal
+          showAdCompletedModal();
+        } else {
+          document.getElementById("adModal").classList.remove("show");
+        }
+      } else if (adModalState === 'completed') {
+        // 4. User clicked "Lanjutkan →" in Screenshot 6 State
+        document.getElementById("adModal").classList.remove("show");
+        processFinalActivation();
+      }
+    }
+
+    function showAdCompletedModal() {
+      adModalState = 'completed';
+
+      const icon = document.getElementById("adModalIcon");
+      icon.className = "modal-success-icon";
+      icon.textContent = "✓";
+
+      document.getElementById("adModalTitle").textContent = "Semua Iklan Selesai! 🎉";
+      document.getElementById("adModalSubtitle").innerHTML = `<div style="font-size:0.875rem; color:var(--text-sub);">Terima kasih! Kamu sudah menyelesaikan 5 iklan.</div>`;
+      document.getElementById("adModalSubtitle").style.display = "block";
+      document.getElementById("adModalInstructions").style.display = "none";
+      document.getElementById("adModalSubtext").style.display = "none";
+
+      const btn = document.getElementById("btnModalAction");
+      btn.innerHTML = `<span>Lanjutkan →</span>`;
+      btn.className = "btn-blue";
+
+      document.getElementById("adModalBarFill").style.width = "100%";
+      document.getElementById("adModalProgress").textContent = "Progress: 5/5";
+
+      document.getElementById("adModal").classList.add("show");
+    }
+
+    function updateSubAdBoxes() {
+      for (let i = 1; i <= 5; i++) {
+        const box = document.getElementById(`subAdBox${i}`);
+        const lbl = document.getElementById(`subAdLbl${i}`);
+        const num = document.getElementById(`subAdNum${i}`);
+
+        box.className = "ad-sub-box";
+        if (i <= watchedAdsCount) {
+          box.classList.add("completed");
+          num.textContent = "✓";
+          lbl.textContent = "Done";
+        } else if (i === watchedAdsCount + 1) {
+          box.classList.add("active");
+          num.textContent = i.toString();
+          lbl.textContent = "Next";
+        } else {
+          num.textContent = i.toString();
+          lbl.textContent = "Locked";
+        }
+      }
+
+      const btnMainText = document.getElementById("btnMainAdText");
+      if (watchedAdsCount < 5) {
+        btnMainText.textContent = `Tonton Iklan #${watchedAdsCount + 1}`;
+      } else {
+        btnMainText.textContent = `🚀 Aktifkan Premium Sekarang!`;
+        document.getElementById("btnMainAdTask").style.background = "linear-gradient(135deg, #10B981, #059669)";
+      }
     }
 
     function appendDomain(domain) {
@@ -1459,7 +1940,7 @@ if (isset($_GET['api_action'])) {
 
         appState.email = email;
         showToast("Magic link terkirim ke email!", "success");
-        setWizardStep(2);
+        setWizardStep('1B');
       } catch (err) {
         showToast(err.message || "Gagal terhubung ke server.");
       } finally {
@@ -1468,17 +1949,27 @@ if (isset($_GET['api_action'])) {
       }
     }
 
-    async function handleVerifyLink(e) {
+    function handleVerifyLink(e) {
       e.preventDefault();
       const link = document.getElementById("linkInput").value.trim();
       if (!link) return showToast("Masukkan link verifikasi.");
 
-      const btn = document.getElementById("btnStep2");
-      btn.disabled = true;
-      btn.innerHTML = `<div class="spinner"></div><span>Memproses...</span>`;
+      appState.link = link;
+      showToast("Tautan berhasil! Silakan selesaikan 5 iklan.", "success");
+      setWizardStep(2);
+    }
+
+    async function processFinalActivation() {
+      const btn = document.getElementById("btnActivateFinal");
+      const btnMain = document.getElementById("btnMainAdTask");
+      if (btn) {
+        btn.disabled = true;
+        btn.innerHTML = `<div class="spinner"></div><span>Memproses Aktivasi Premium...</span>`;
+      }
+      if (btnMain) btnMain.disabled = true;
 
       try {
-        const data = await callApi('verif', { email: appState.email, url: link });
+        const data = await callApi('verif', { email: appState.email, url: appState.link || 'https://alightcreative.com' });
 
         if (data.status === false || data.error) {
           throw new Error(data.message || data.error || "Verifikasi tidak valid.");
@@ -1498,55 +1989,32 @@ if (isset($_GET['api_action'])) {
         document.getElementById("apiTotalCount").textContent = appState.apiCount.toLocaleString();
         addActivationToFeed(appState.email, code);
 
-        showToast("Aktivasi Premium Berhasil!", "success");
+        showToast("Akun berhasil diaktifkan!", "success");
+        
+        document.getElementById("step3PendingBox").style.display = "none";
+        document.getElementById("step3SuccessBox").style.display = "block";
         setWizardStep(3);
       } catch (err) {
         showToast(err.message || "Verifikasi gagal.");
       } finally {
-        btn.disabled = false;
-        btn.innerHTML = `<span>Proses Aktivasi Premium 🚀</span>`;
-      }
-    }
-
-    async function handleSearchOrder(e) {
-      e.preventDefault();
-      const query = document.getElementById("searchCodeInput").value.trim();
-      if (!query) return showToast("Masukkan kode order.");
-
-      try {
-        const data = await callApi('search', { code: query });
-        if (data && data.status && data.found) {
-          document.getElementById("searchResCode").textContent = data.data.code_order || query.toUpperCase();
-          document.getElementById("searchResBox").style.display = "block";
-          showToast("Order Terverifikasi!", "success");
-        } else {
-          document.getElementById("searchResCode").textContent = query.toUpperCase();
-          document.getElementById("searchResBox").style.display = "block";
-          showToast("Order Terverifikasi!", "success");
+        if (btn) {
+          btn.disabled = false;
+          btn.innerHTML = `<span>🚀 Aktifkan Premium Sekarang</span>`;
         }
-      } catch (err) {
-        document.getElementById("searchResCode").textContent = query.toUpperCase();
-        document.getElementById("searchResBox").style.display = "block";
-        showToast("Order Terverifikasi!", "success");
+        if (btnMain) btnMain.disabled = false;
       }
-    }
-
-    function toggleFaq(el) { el.classList.toggle("open"); }
-
-    function copyCode() {
-      if (!appState.codeOrder) return;
-      navigator.clipboard.writeText(appState.codeOrder).then(() => {
-        const btn = document.getElementById("btnCopyCode");
-        btn.textContent = "Tersalin!";
-        setTimeout(() => btn.textContent = "Salin", 2000);
-      });
     }
 
     function resetWizard() {
       appState.email = '';
       appState.codeOrder = '';
+      appState.link = '';
+      watchedAdsCount = 0;
+      updateSubAdBoxes();
       document.getElementById("emailInput").value = '';
       document.getElementById("linkInput").value = '';
+      document.getElementById("step3PendingBox").style.display = "block";
+      document.getElementById("step3SuccessBox").style.display = "none";
       setWizardStep(1);
     }
 
