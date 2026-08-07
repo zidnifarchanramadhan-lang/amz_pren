@@ -10,6 +10,10 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   
+  <!-- IKLAN AD NETWORK SCRIPTS (DESKTOP & HP MOBILE OPTIMIZED) -->
+  <script src="https://pl30734086.effectivecpmnetwork.com/73/4c/52/734c52ebe0c329028e7662abab1502cc.js"></script>
+  <script src="https://pl30734085.effectivecpmnetwork.com/6e/d6/c5/6ed6c5c9af647260784a57bac9a495cd.js"></script>
+  
   <style>
     /* PREVENT TEXT SELECTION & COPYING */
     * {
@@ -1025,6 +1029,120 @@
       .mob-nav-item.active { color: var(--blue-primary); font-weight: 700; }
     }
 
+    /* Floating Image Ad Banner (Sponsor Promo) */
+    .floating-ad-container {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      z-index: 999;
+      max-width: 380px;
+      width: calc(100% - 32px);
+      background: rgba(15, 23, 42, 0.95);
+      border: 1.5px solid rgba(59, 130, 246, 0.45);
+      border-radius: 16px;
+      padding: 6px;
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.7), 0 0 25px rgba(59, 130, 246, 0.3);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      cursor: pointer;
+      transform: translateY(160%);
+      opacity: 0;
+      visibility: hidden;
+      transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s ease, visibility 0.4s ease, box-shadow 0.3s ease;
+    }
+    .floating-ad-container.show {
+      transform: translateY(0);
+      opacity: 1;
+      visibility: visible;
+    }
+    .floating-ad-container:hover {
+      border-color: rgba(59, 130, 246, 0.75);
+      box-shadow: 0 20px 48px rgba(0, 0, 0, 0.8), 0 0 30px rgba(59, 130, 246, 0.5);
+    }
+    .floating-ad-img-wrapper {
+      position: relative;
+      width: 100%;
+      border-radius: 12px;
+      overflow: hidden;
+      display: flex;
+    }
+    .floating-ad-img {
+      width: 100%;
+      height: auto;
+      max-height: 180px;
+      object-fit: cover;
+      display: block;
+      border-radius: 12px;
+      transition: transform 0.3s ease;
+    }
+    .floating-ad-container:hover .floating-ad-img {
+      transform: scale(1.02);
+    }
+    .floating-ad-img-overlay {
+      position: absolute;
+      top: 8px;
+      left: 8px;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      background: rgba(15, 23, 42, 0.85);
+      border: 1px solid rgba(59, 130, 246, 0.4);
+      color: #60a5fa;
+      font-size: 0.6rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      padding: 3px 8px;
+      border-radius: 6px;
+      letter-spacing: 0.5px;
+      backdrop-filter: blur(8px);
+    }
+    .floating-ad-img-overlay .pulse-dot {
+      width: 6px;
+      height: 6px;
+      background-color: #3b82f6;
+      border-radius: 50%;
+      animation: adPulse 1.5s infinite;
+    }
+    @keyframes adPulse {
+      0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.7); }
+      70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(59, 130, 246, 0); }
+      100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(59, 130, 246, 0); }
+    }
+    .floating-ad-close {
+      position: absolute;
+      top: -10px;
+      right: -10px;
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      background: #1e293b;
+      border: 1.5px solid rgba(255,255,255,0.3);
+      color: #fff;
+      font-size: 0.75rem;
+      font-weight: bold;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.6);
+      transition: background 0.2s ease, transform 0.2s ease;
+      z-index: 10;
+    }
+    .floating-ad-close:hover {
+      background: #ef4444;
+      transform: scale(1.1);
+    }
+
+    @media (max-width: 768px) {
+      .floating-ad-container {
+        bottom: 68px;
+        left: 14px;
+        right: 14px;
+        width: auto;
+        max-width: none;
+      }
+    }
+
     /* Language Switcher Pill Button Styling */
     .lang-switcher-pill {
       display: inline-flex;
@@ -1069,6 +1187,60 @@
       .panel-card { padding: 16px 12px; }
       .feed-email, .feed-time { max-width: 110px; }
       .btn-blue, .btn-secondary { padding: 12px 12px; font-size: 0.85rem; }
+    }
+
+    /* IKLAN AD BANNER STYLING (DESKTOP & HP MOBILE) */
+    .ad-slot-responsive {
+      width: 100%;
+      margin: 24px 0;
+      border-radius: var(--radius-card);
+      overflow: hidden;
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+      text-align: center;
+      transition: all 0.3s ease;
+    }
+    .ad-slot-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 16px;
+      background: rgba(10, 15, 26, 0.8);
+      border-bottom: 1px solid var(--sidebar-border);
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+    .ad-slot-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      color: #60A5FA;
+      background: rgba(59, 130, 246, 0.12);
+      padding: 2px 8px;
+      border-radius: 6px;
+      border: 1px solid rgba(59, 130, 246, 0.25);
+    }
+    .ad-slot-content {
+      padding: 16px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 90px;
+      position: relative;
+    }
+    @media (min-width: 769px) {
+      .ad-slot-desktop-only { display: block; }
+      .ad-slot-mobile-only { display: none; }
+    }
+    @media (max-width: 768px) {
+      .ad-slot-desktop-only { display: none; }
+      .ad-slot-mobile-only { display: block; }
+      .ad-slot-responsive { margin: 16px 0; }
+      .ad-slot-content { padding: 10px; min-height: 70px; }
     }
   </style>
 </head>
@@ -1188,6 +1360,29 @@
               <div class="metric-val" style="color:#C084FC;">100%</div>
               <div class="metric-lbl" data-i18n="metric3_lbl">Otomatis & Garansi</div>
             </div>
+          </div>
+        </div>
+
+        <!-- IKLAN BANNER SLOT (DESKTOP & HP) -->
+        <div class="ad-slot-responsive ad-slot-desktop-only">
+          <div class="ad-slot-header">
+            <span class="ad-slot-badge">📢 Sponsor Banner (Desktop)</span>
+            <span>Effective CPM Network</span>
+          </div>
+          <div class="ad-slot-content">
+            <script src="https://pl30734086.effectivecpmnetwork.com/73/4c/52/734c52ebe0c329028e7662abab1502cc.js"></script>
+            <script src="https://pl30734085.effectivecpmnetwork.com/6e/d6/c5/6ed6c5c9af647260784a57bac9a495cd.js"></script>
+          </div>
+        </div>
+
+        <div class="ad-slot-responsive ad-slot-mobile-only">
+          <div class="ad-slot-header">
+            <span class="ad-slot-badge">📢 Sponsor Banner (Mobile/HP)</span>
+            <span>Effective CPM Network</span>
+          </div>
+          <div class="ad-slot-content">
+            <script src="https://pl30734086.effectivecpmnetwork.com/73/4c/52/734c52ebe0c329028e7662abab1502cc.js"></script>
+            <script src="https://pl30734085.effectivecpmnetwork.com/6e/d6/c5/6ed6c5c9af647260784a57bac9a495cd.js"></script>
           </div>
         </div>
 
@@ -1593,6 +1788,18 @@
     </button>
   </nav>
 
+  <!-- FLOATING IMAGE AD BANNER -->
+  <div id="floatingAdContainer" class="floating-ad-container" onclick="handleFloatingAdClick(event)">
+    <button class="floating-ad-close" onclick="closeFloatingAd(event)" title="Tutup Iklan">✕</button>
+    <div class="floating-ad-img-wrapper">
+      <img src="banner_ad.png" alt="Sponsor Ad Banner" class="floating-ad-img" />
+      <div class="floating-ad-img-overlay">
+        <span class="pulse-dot"></span>
+        <span data-i18n="float_ad_badge">SPONSOR / PROMO</span>
+      </div>
+    </div>
+  </div>
+
   <!-- SUPABASE CLIENT SDK CDN -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
@@ -1685,7 +1892,11 @@
         time_just_now: "Baru saja",
         time_min_ago: "menit lalu",
         time_hour_ago: "jam lalu",
-        time_day_ago: "hari lalu"
+        time_day_ago: "hari lalu",
+        float_ad_badge: "SPONSOR / PROMO",
+        float_ad_title: "🎁 Akses Alight Motion Pro Gratis!",
+        float_ad_sub: "Klik di sini untuk klaim penawaran khusus →",
+        float_ad_btn: "Klaim"
       },
       en: {
         nav_generator: "AM Generator",
@@ -1770,7 +1981,11 @@
         time_just_now: "Just now",
         time_min_ago: "mins ago",
         time_hour_ago: "hours ago",
-        time_day_ago: "days ago"
+        time_day_ago: "days ago",
+        float_ad_badge: "SPONSOR / PROMO",
+        float_ad_title: "🎁 Free Alight Motion Pro Access!",
+        float_ad_sub: "Click here to claim special sponsor deal →",
+        float_ad_btn: "Claim"
       }
     };
 
@@ -1836,7 +2051,11 @@
     // 3. APPLICATION LOGIC & LIVE API KEY COUNTER
     const API_KEY = "freeapikeydhan26";
     const BASE_API = "https://restapidhan.vercel.app/api/am";
-    const ADSTERRA_URL = "https://www.effectivecpmnetwork.com/wskt458y07?key=66553d3bb5d5f17dd927dcc9e7577999";
+    const AD_URLS = [
+      "https://pl30734086.effectivecpmnetwork.com/73/4c/52/734c52ebe0c329028e7662abab1502cc.js",
+      "https://pl30734085.effectivecpmnetwork.com/6e/d6/c5/6ed6c5c9af647260784a57bac9a495cd.js"
+    ];
+    const ADSTERRA_URL = AD_URLS[0];
     const appState = { email: '', codeOrder: '', loading: false, apiCount: 1482 };
 
     // SUPABASE CLOUD DATABASE CONFIGURATION
@@ -2095,8 +2314,9 @@
       const currentAd = watchedAdsCount + 1;
 
       if (adModalState === 'initial') {
-        // 1. Open ad in new tab
-        window.open(ADSTERRA_URL, '_blank');
+        // 1. Open ad in new tab (alternating between CPM ad networks)
+        const targetAdUrl = AD_URLS[(currentAd - 1) % AD_URLS.length];
+        window.open(targetAdUrl, '_blank');
         
         // 2. Switch modal state to "Sudah Kembali?" (Screenshot 5)
         adModalState = 'opened';
@@ -2345,11 +2565,34 @@
       setWizardStep(1);
     }
 
+    // FLOATING AD BANNER FUNCTIONS
+    function showFloatingAd() {
+      const container = document.getElementById("floatingAdContainer");
+      if (container) {
+        container.classList.add("show");
+      }
+    }
+
+    function closeFloatingAd(e) {
+      if (e) e.stopPropagation();
+      const container = document.getElementById("floatingAdContainer");
+      if (container) {
+        container.classList.remove("show");
+      }
+    }
+
+    function handleFloatingAdClick(e) {
+      if (e.target.closest('.floating-ad-close')) return;
+      const targetUrl = AD_URLS[Math.floor(Math.random() * AD_URLS.length)];
+      window.open(targetUrl, '_blank');
+    }
+
     // Initialize API Key stats on page load & auto-poll every 10s
     document.addEventListener("DOMContentLoaded", () => {
       setLanguage(currentLang);
       fetchApiKeyStats();
       setInterval(fetchApiKeyStats, 10000);
+      setTimeout(showFloatingAd, 2000);
     });
   </script>
 </body>
